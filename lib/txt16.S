@@ -1,5 +1,5 @@
 
-    %define BUILD '0x002'
+    %define BUILD '0x003'
 
     doch: call putc
 
@@ -62,39 +62,6 @@
 
         .done:
             ret
-        
-    ;   clear   ->  clears the screen
-    clear:
-        pusha
-
-        mov     ah, 0x00
-        mov     al, 0x03
-        int         0x10
-        
-        .done:
-            popa
-            ret
-
-    ;   screen  ->  sets the screen color to 0x1F
-    screen:
-        xor     al, al
-        
-        mov     ah, 09h
-        mov     cx, 2000d
-        mov     al, 32d
-        mov     bl, 0x1F
-        int         0x10
-        
-        ret
-
-    ;   slow -> stops for a few seconds
-    slow:
-        mov     cx, 0Fh
-        mov     dx, 4240h
-        mov     ah, 86h
-        int         0x15
-
-        ret
 
     ;   Variables
     XPOS:   db  0
@@ -102,8 +69,10 @@
     hexs:   db  '0123456789ABCDEF'
     otus:   db  '0000', 0
     regi:   dw  0
-    msg0:   db  "===> Starting OS/1 ... Build [", BUILD ,"]", 0
-    msg1:   db  "===> Reading from the disk...", 0
-    msg2:   db  "===> Disk read, loading the kernel...", 0
-    msg3:   db  "===> Kernel loaded!", 0
+    msg0:   db  "[1/5] ===> Starting OS/1 ... Build [", BUILD ,"]", 0
+    msg1:   db  "[2/5] ===> Reading from the disk...", 0
+    msg2:   db  "[3/5] ===> Disk read, loading the kernel...", 0
+    msg3:   db  "[4/5] ===> Kernel loaded!", 0
+    msg4:   db  "[5/5] ===> Starting the user interface...", 0
+
     derr1:  db  "===> ERROR : DISK READ FAILED | Reboot...", 0

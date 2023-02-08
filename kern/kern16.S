@@ -41,11 +41,19 @@
             mov     bx, 0x0000
             mov     ax, [gs:bx]
 
-            jmp     $
+            call        slow
+
+            mov     si, msg4
+            call        puts
+
+            call        slow
+
+            cli
+
+            jmp     _ui_main
 
         %include "../lib/txt16.S"
         %include "../lib/disk16.S"
-    
-    TIMES   8192-($-$$) db 0
-    DW      0xaa55
-
+        %include "ui/ui16.S"
+        %include "ui/lib_ui/screen.S"
+        %include "lib/sleep.S"

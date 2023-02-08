@@ -19,7 +19,12 @@
     BOOTD:  db  0
 
     disk_fail:
-        call    clear
+        pusha
+        mov     ah, 0x00
+        mov     al, 0x03
+        int         0x10
+        popa
+
         xor     al, al
         
         mov     ah, 09h
