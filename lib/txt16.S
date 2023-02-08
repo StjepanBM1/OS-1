@@ -1,4 +1,6 @@
 
+    %define BUILD '0x002'
+
     doch: call putc
 
     ;   puts -> print str.
@@ -85,10 +87,23 @@
         
         ret
 
+    ;   slow -> stops for a few seconds
+    slow:
+        mov     cx, 0Fh
+        mov     dx, 4240h
+        mov     ah, 86h
+        int         0x15
+
+        ret
+
     ;   Variables
     XPOS:   db  0
     YPOS:   db  0
     hexs:   db  '0123456789ABCDEF'
     otus:   db  '0000', 0
     regi:   dw  0
-    msg0:   db  "Starting OS/1 ... Build [", BUILD ,"]" 0
+    msg0:   db  "===> Starting OS/1 ... Build [", BUILD ,"]", 0
+    msg1:   db  "===> Reading from the disk...", 0
+    msg2:   db  "===> Disk read, loading the kernel...", 0
+    msg3:   db  "===> Kernel loaded!", 0
+    derr1:  db  "===> ERROR : DISK READ FAILED | Reboot...", 0

@@ -7,10 +7,13 @@ DF=disk.img
 OF=$(O)/*
 
 # Targets
-all: bootld diskim run
+all: bootld kernel diskim run
 
 bootld:
 	$(MAKE) -C boot
+
+kernel:	
+	$(MAKE) -C kern
 
 diskim:
 	@./disk.sh
