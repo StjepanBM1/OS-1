@@ -1,5 +1,5 @@
 
-    %define BUILD '0x003'
+    %define BUILD '0.0.4'
 
     doch: call putc
 

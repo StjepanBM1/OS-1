@@ -24,7 +24,7 @@
         
         mov	ah,	09h
 		mov	cx,	2000d
-		mov	al,	177d
+		mov	al,	177d    ;   177d
 		mov	bl,	0x3F
 		int		0x10
 
