@@ -14,3 +14,4 @@
     %include "ui/lib_ui/ui_puts.S"
     %include "ui/wind/main_wind.S"
     %include "ui/wind/apps.S"
+    %include "ui/app/app_console.S"

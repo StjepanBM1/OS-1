@@ -30,8 +30,16 @@
                 ret
 
     ;   Screen items
-    item1:       db  " [1] Reboot", 0
-    item2:       db  " [2] Shutdown", 0
-    item3:       db  " [3] Temp-Notes", 0
-    item4:       db  " [4] ??????????", 0
-    item5:       db  " [5] ??????????", 0
+    item1:      db  " [1] Reboot", 0
+    item2:      db  " [2] Shutdown", 0
+
+    item3:      db  " [3] Calculator", 0
+    item4:      db  " [4] Console", 0
+    item5:      db  " [5] Calendar", 0
+
+    item6:      db  " [6] Paint", 0
+    item7:      db  " [7] Temp-Write", 0
+
+    item8:      db  " [8] Help", 0
+
+    separator:  db  205, 0

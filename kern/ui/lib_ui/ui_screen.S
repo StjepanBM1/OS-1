@@ -5,6 +5,7 @@
         mov     ax, 03h
         int         0x10
 
+        ;   Stop blinking
         mov ax, 1003h
         mov bx, 0
         int 10h
@@ -16,16 +17,16 @@
         
         xor     al, al
 
-        mov	ah,	09h
-		mov	cx,	2000d
-		mov	al,	32d
-		mov	bl,	0x3F
-		int		0x10
+        ;mov	ah,	09h
+		;mov	cx,	2000d
+		;mov	al,	32d
+		;mov	bl,	0xCF
+		;int		0x10
         
         mov	ah,	09h
 		mov	cx,	2000d
 		mov	al,	177d    ;   177d
-		mov	bl,	0x3F
+		mov	bl,	0xF7
 		int		0x10
 
         ret

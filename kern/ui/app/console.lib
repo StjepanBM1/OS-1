@@ -1,0 +1,134 @@
+
+    ;   Commands
+    cmd_ver:    db  'ver', 0
+
+    ;   Output
+    str_ver:    db  " OS/1 Build [ ",BUILD," ]", 0
+    str_err:    db  " File or command not found...", 0
+
+    c_prompt:   db  "% ", 0
+
+    c_buffer    times   64  db  0
+
+    ;   Input
+    get_str:
+        xor     cl, cl
+
+        .loop:
+            mov ah, 0
+            int     16h
+
+            cmp al, 0x08
+            je  .backspace
+
+            cmp al, 0x0D
+            je  .done
+            
+            cmp cl, 0x3F
+            je  .loop
+
+            mov ah, 0x0e
+            int     0x10
+
+            stosb
+            inc cl
+            jmp .loop
+
+        .backspace:
+            cmp cl, 0
+            je  .loop
+
+            dec di
+            mov byte [di], 0
+            dec cl
+            
+            mov ah, 0x0e
+            mov al, 0x08
+            int     0x10
+
+            mov al, ' '
+            int     0x10
+
+            mov al, 0x08
+            int     0x10
+
+            jmp .loop
+
+        .done:
+
+            cmp dh, 23
+            je  .redraw
+
+            mov al, 0
+            stosb
+
+            mov ah, 0x0e
+            mov al, 0x0D
+            int     0x10
+
+            mov al, 0x0A
+            int     0x10
+
+            ret
+
+        .redraw:
+            mov ah, 2
+            mov dh, 13
+            mov dl, 3
+            int     10h
+
+            .re_loop:
+                mov ah, 2
+                inc dh
+                mov dl, 3
+                int     10h
+
+                mov ah, 09h
+                mov al, 20h
+                mov cx, 74d
+                mov bl, 0xF0
+                int     0x10
+
+                cmp dh, 23
+                je  .after
+
+                jmp .re_loop
+
+            .after:
+                jmp app_console
+
+    strcmp:
+        .loop:
+            mov al, [si]
+            mov bl, [di]
+            cmp al, bl
+            jne .notq
+
+            cmp al, 0
+            je  .done
+
+            inc di
+            inc si
+            jmp .loop
+        
+        .notq:
+            clc
+            ret
+
+        .done:
+            stc
+            ret
+
+    cons_puts:
+        lodsb
+
+        or  al, al
+        jz  .done
+
+        mov ah, 0x0e
+        int     0x10
+
+        jmp cons_puts
+    
+        .done:
+            ret

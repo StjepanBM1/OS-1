@@ -32,8 +32,5 @@
         mov     al, 32d
         mov     bl, 0x4F
         int         0x10
-
-        mov     si,     derr1
-        call            puts
-
+        
         jmp     $

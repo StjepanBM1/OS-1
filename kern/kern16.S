@@ -3,7 +3,7 @@
     [CPU       386]
     [BITS       16]
 
-        %define BUILD '0.0.4'
+        %define BUILD '0.0.5'
 
         JMP _kstart
 
@@ -17,11 +17,6 @@
 
             mov     ax, 0xb800
             mov     es, ax
-
-            mov     ah, 0x02
-            mov     dh, 0
-            mov     dl, 0
-            int         0x10
 
             mov     si, msg0
             call        puts
