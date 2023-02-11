@@ -27,7 +27,7 @@
         mov     ah, 09h
         mov     al, 20h
         mov     cx, 72d
-        mov     bl, 0xE0
+        mov     bl, 0xCF
         int         0x10
 
         mov     ah, 2
@@ -37,7 +37,7 @@
 
         mov     ah, 2
         mov     dh, 1
-        mov     dl, 4
+        mov     dl, 5
         int         10h
 
         mov     si, ui_title
@@ -55,7 +55,7 @@
             mov     bl, 0xF0
             int         0x10
 
-            cmp     dh, 22 + 1
+            cmp     dh, 12 + 1
             je      ui_items
 
             jmp     .ui_loop
@@ -126,56 +126,32 @@
             xor cx, cx
 
             mov ah, 2
+            mov dh, 13
+            mov dl, 4
+            int     10h
+
+            .ui_apps_loop:
+                mov si, separator
+                call    ui_puts
+
+                inc     cx
+
+                cmp cx, 72
+                je  ui_prompt
+
+                jmp .ui_apps_loop
+
+        ui_prompt:
+            mov ah, 2
             mov dh, 12
             mov dl, 4
             int     10h
 
-            ;.ui_apps_loop:
-                ;mov si, separator
-                ;call    ui_puts
-
-                ;inc     cx
-
-                ;cmp cx, 72
-                ;je  ui_prompt
-
-                ;jmp .ui_apps_loop
-
-            mov     ah, 2
-            mov     dh, 13
-            mov     dl, 4
-            int     10h
-            mov     ah, 09h
-            mov     al, 20h
-            mov     cx, 72d
-            mov     bl, 0xE0
-            int         0x10
-
-            mov     ah, 2
-            mov     dh, 12
-            mov     dl, 0
-            int     10h
-
-            mov     ah, 09h
-            mov     al, 177d
-            mov     cx, 80d
-            mov     bl, 0xF7
-            int         0x10
-
-            mov     ah, 2
-            mov     dh, 13
-            mov     dl, 4
-            int         10h
-            mov     si, ui_title2
-            call        ui_puts
-
-        ui_prompt:
-
-            jmp     app_console
+            jmp     app_chos
 
             ret
 
-    ui_title:   db  "   [ OS/1 | Build ",BUILD," ] [ Drive : ",BOOTD," ] ", 0
+    ui_title:   db  "[ OS/1 | Build ",BUILD," ] [ Drive : ",BOOTD," ] [ Program Handler ",PRG_VER," ]   ", 0
     ui_title2:  db  "   [ OS/1 Console | Versions : ",PRG_VER," ] [ Memory : ",MEM," KB ]", 0
     prompt:     db  " [",BOOTD,"]",175," ", 0
     MEM:        db  0
