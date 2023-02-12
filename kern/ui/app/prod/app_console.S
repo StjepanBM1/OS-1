@@ -56,4 +56,4 @@
 
             jmp     .app_console_loop
 
-    %include "ui/app/console.lib"
+    %include "ui/app/prod/console.lib"

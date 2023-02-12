@@ -27,7 +27,7 @@
         mov     ah, 09h
         mov     al, 20h
         mov     cx, 72d
-        mov     bl, 0xCF
+        mov     bl, 0x1F
         int         0x10
 
         mov     ah, 2
@@ -55,7 +55,7 @@
             mov     bl, 0xF0
             int         0x10
 
-            cmp     dh, 12 + 1
+            cmp     dh, 9 + 1
             je      ui_items
 
             jmp     .ui_loop
@@ -102,31 +102,10 @@
             mov     si, item5
             call    ui_puts
 
-            mov ah, 2
-            mov dh, 8
-            mov dl, 4
-            int     10h
-            mov     si, item6
-            call    ui_puts
-
-            mov ah, 2
-            mov dh, 9
-            mov dl, 4
-            int     10h
-            mov     si, item7
-            call    ui_puts
-
-            mov ah, 2
-            mov dh, 10
-            mov dl, 4
-            int     10h
-            mov     si, item8
-            call    ui_puts
-
             xor cx, cx
 
             mov ah, 2
-            mov dh, 13
+            mov dh, 10
             mov dl, 4
             int     10h
 
@@ -143,7 +122,7 @@
 
         ui_prompt:
             mov ah, 2
-            mov dh, 12
+            mov dh, 9
             mov dl, 4
             int     10h
 
