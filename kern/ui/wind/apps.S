@@ -22,6 +22,12 @@
                 cmp     al, '2'
                 je      .app_shutdown
 
+                cmp     al, '3'
+                je      chos_prod
+
+                cmp     al, '4'
+                je      chos_creat
+
                 cmp     al, '5'
                 je      .app_credits
 

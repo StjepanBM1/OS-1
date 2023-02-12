@@ -18,6 +18,8 @@
     %include "ui/app/prod/app_console.S"
     %include "ui/app/prod/app_calc.S"
     %include "ui/app/prod/app_calend.S"
+    %include "ui/app/prod/prod_map.S"
 
     %include "ui/app/creat/app_paint.S"
     %include "ui/app/creat/app_write.S"
+    %include "ui/app/creat/creat_map.S"
