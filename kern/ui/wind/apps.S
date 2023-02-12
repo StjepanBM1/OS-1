@@ -269,7 +269,7 @@
 
     warn_title: db  " [ ! ]           [ Warning ]          [ ! ]", 0
     warn_str:   db  " This will exit OS/1 and shutdown the PC! ", 0
-    warn_yn:    db  "                 [ Y / N ]", 0
+    warn_yn:    db  "                  [ Y / N ]", 0
 
     cred_title: db  " [ ",240," ]         [ Credits ]         [ ",240," ] ", 0
     cred_str1:  db  "   Main programmer :   Stjepan B. M.", 0

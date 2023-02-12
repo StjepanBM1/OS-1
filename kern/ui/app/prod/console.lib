@@ -1,14 +1,28 @@
 
+    %define     C_BUILD '1.0.0'
+
     ;   Commands
-    cmd_ver:    db  'ver', 0
+    cmd_ver:    db  'ver',  0
+    cmd_mem:    db  'mem',  0
+    cmd_cls:    db  'cls',  0
+    cmd_exit:   db  'exit', 0
 
     ;   Output
-    str_ver:    db  " OS/1 Build [ ",BUILD," ]", 0
+    str_ver:    db  " OS/1 Build [ ",BUILD," ] : Console Version [ ",C_BUILD," ]", 0
     str_err:    db  " File or command not found...", 0
+    str_mem:    db  " [ ",MEM," ] KB" , 0
 
+    c_title:    db  " [ OS/1 Console | Build ",C_BUILD," ] [ Memory : ",MEM," KB ] [ 'exit' = exit ] ", 0
+    c_wlc_str:  db  " Decode the memory thing yourself!", 0
     c_prompt:   db  "% ", 0
 
     c_buffer    times   64  db  0
+
+    c_backg:
+        call    _ui_clear
+        call    _ui_backgr
+
+        ret
 
     ;   Input
     get_str:
@@ -55,47 +69,18 @@
             jmp .loop
 
         .done:
-
-            cmp dh, 23
-            je  .redraw
-
             mov al, 0
             stosb
 
-            mov ah, 0x0e
-            mov al, 0x0D
-            int     0x10
+            cmp dh, 22 + 1
+            je  app_console
 
-            mov al, 0x0A
-            int     0x10
-
-            ret
-
-        .redraw:
             mov ah, 2
-            mov dh, 13
+            add dh, 1
             mov dl, 3
             int     10h
 
-            .re_loop:
-                mov ah, 2
-                inc dh
-                mov dl, 3
-                int     10h
-
-                mov ah, 09h
-                mov al, 20h
-                mov cx, 74d
-                mov bl, 0xF0
-                int     0x10
-
-                cmp dh, 23
-                je  .after
-
-                jmp .re_loop
-
-            .after:
-                jmp app_console
+            ret
 
     strcmp:
         .loop:
@@ -117,18 +102,4 @@
 
         .done:
             stc
-            ret
-
-    cons_puts:
-        lodsb
-
-        or  al, al
-        jz  .done
-
-        mov ah, 0x0e
-        int     0x10
-
-        jmp cons_puts
-    
-        .done:
             ret

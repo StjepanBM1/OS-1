@@ -85,9 +85,6 @@
                 mov     ah, 0x00
                 int         0x16
 
-                mov     ah, 0x0e
-                int         0x10
-
                 cmp     al, '4'
                 je      _return_to_main2
 
@@ -116,8 +113,8 @@
 
                     jmp .loop_return2
 
-    creat_title:     db  " [ OS/1 | Build ",BUILD," ] [ ",BOOTD,"\Creativity ] ", 0
-    creat_prompt:    db  " [ ",BOOTD,"\Creativity ]",175, " ", 0
+    creat_title:     db  " [ OS/1 | Build ",BUILD," ] [ ",BOOTD,":Creativity ] ", 0
+    creat_prompt:    db  " [ ",BOOTD,":Creativity ]",175, " ", 0
 
     ;   Items
     creat_item1:     db  " [1] Paint", 0

@@ -84,13 +84,16 @@
                 mov     ah, 0x00
                 int         0x16
 
-                mov     ah, 0x0e
-                int         0x10
+                cmp     al, '3'
+                je      _app_console
 
                 cmp     al, '4'
                 je      _return_to_main
 
                 jmp     _prod_get_in
+
+            _app_console:
+                jmp     app_console
 
             _return_to_main:
                 mov     ah, 2
@@ -115,8 +118,8 @@
 
                     jmp .loop_return
 
-    prod_title:     db  " [ OS/1 | Build ",BUILD," ] [ ",BOOTD,"\Productivity ] ", 0
-    prod_prompt:    db  " [ ",BOOTD,"\Productivity ]",175, " ", 0
+    prod_title:     db  " [ OS/1 | Build ",BUILD," ] [ ",BOOTD,":Productivity ] ", 0
+    prod_prompt:    db  " [ ",BOOTD,":Productivity ]",175, " ", 0
 
     ;   Items
     prod_item1:     db  " [1] Calculator", 0
