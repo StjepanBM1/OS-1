@@ -3,7 +3,7 @@
     [CPU       386]
     [BITS       16]
 
-        %define BUILD '0.0.9'
+        %define BUILD '0.1.0'
 
         JMP _kstart
 

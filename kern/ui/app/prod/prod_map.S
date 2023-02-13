@@ -20,7 +20,7 @@
                 mov bl, 0xF0
                 int     0x10
                 
-                cmp dh, 19+1
+                cmp dh, 18+1
                 je  .prod_after
 
                 jmp .prod_loop
@@ -67,14 +67,7 @@
             call        ui_puts
 
             mov     ah, 2
-            mov     dh, 17
-            mov     dl, 4
-            int         10h
-            mov     si, prod_item4
-            call        ui_puts
-
-            mov     ah, 2
-            mov     dh, 19
+            mov     dh, 18
             mov     dl, 3
             int         10h
             mov     si, prod_prompt
@@ -84,10 +77,13 @@
                 mov     ah, 0x00
                 int         0x16
 
-                cmp     al, '3'
+                cmp     al, '1'
                 je      _app_console
 
-                cmp     al, '4'
+                cmp     al, '2'
+                je      _app_write
+
+                cmp     al, '3'
                 je      _return_to_main
 
                 jmp     _prod_get_in
@@ -113,7 +109,7 @@
                     mov	bl,	0xF8
                     int		0x10
 
-                    cmp dh, 19+1
+                    cmp dh, 18+1
                     je  _ui_main_window
 
                     jmp .loop_return
@@ -122,7 +118,6 @@
     prod_prompt:    db  " [ ",BOOTD,":Productivity ]",175, " ", 0
 
     ;   Items
-    prod_item1:     db  " [1] Calculator", 0
-    prod_item2:     db  " [2] Calendar", 0
-    prod_item3:     db  " [3] Console", 0
-    prod_item4:     db  " [4] Return", 0
+    prod_item1:     db  " [1] Console", 0
+    prod_item2:     db  " [2] Temp-Write", 0
+    prod_item3:     db  " [3] Return", 0

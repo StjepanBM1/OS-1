@@ -1,0 +1,15 @@
+
+    %define W_BUILD '1.0.0'
+
+    w_title:    db  " [ OS/1 Temp-Write | Build ",W_BUILD," ] [ ESC = Exit ] ", 0
+
+    w_backg:
+        call    _ui_clear
+
+        mov	ah,	09h
+		mov	cx,	2000d
+		mov	al,	20h    ;   177d
+		mov	bl,	0xF0
+		int		0x10
+
+        ret
