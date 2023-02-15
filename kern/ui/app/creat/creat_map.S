@@ -20,7 +20,7 @@
                 mov bl, 0xF0
                 int     0x10
                 
-                cmp dh, 18+1
+                cmp dh, 17+1
                 je  .creat_after
 
                 jmp .creat_loop
@@ -61,14 +61,7 @@
             call        ui_puts
 
             mov     ah, 2
-            mov     dh, 16
-            mov     dl, 4
-            int         10h
-            mov     si, creat_item3
-            call        ui_puts
-
-            mov     ah, 2
-            mov     dh, 18
+            mov     dh, 17
             mov     dl, 3
             int         10h
             mov     si, creat_prompt
@@ -78,7 +71,10 @@
                 mov     ah, 0x00
                 int         0x16
 
-                cmp     al, '3'
+                cmp     al, '1'
+                je      app_paint
+
+                cmp     al, '2'
                 je      _return_to_main2
 
                 jmp     _creat_get_in
@@ -101,7 +97,7 @@
                     mov	bl,	0xF8
                     int		0x10
 
-                    cmp dh, 19+1
+                    cmp dh, 17+1
                     je  _ui_main_window
 
                     jmp .loop_return2
@@ -111,5 +107,4 @@
 
     ;   Items
     creat_item1:     db  " [1] Paint", 0
-    creat_item2:     db  " [2] 2 (the game)", 0
-    creat_item3:     db  " [3] Return", 0
+    creat_item2:     db  " [2] Return", 0
