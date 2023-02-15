@@ -84,6 +84,12 @@
             cmp     al, 27d
             je          _qt
 
+            cmp     al, 112d
+            je          _place
+
+            cmp     al, 101d
+            je          _erase
+
             jmp     _p_mouse
 
             _up:
@@ -117,6 +123,20 @@
             _qt:
                 jmp     _ui_main
 
+            _place:
+                mov     ah, 0x0e
+                mov     al, 219d
+                int         0x10
+
+                jmp     _p_mouse
+            
+            _erase:
+                mov     ah, 0x0e
+                mov     al, 32d
+                int         0x10
+
+                jmp     _p_mouse
+
         jmp     p_cusor
 
-    p_title:    db  " [ OS/1 Paint | Build ",P_BUILD," ] [ ESC = Exit ] [ ` = Help ]", 0
+    p_title:    db  " [ OS/1 Paint | Build ",P_BUILD," ] [ ESC = Exit ] [ p = draw | e = erase ]", 0
