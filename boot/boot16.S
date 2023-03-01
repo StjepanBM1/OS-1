@@ -1,38 +1,63 @@
 
-    [ORG    0x7c00]
-    [CPU       386]
-    [BITS       16]
-
-    JMP     _start
+    .section    .text.boot
+        .extern     BOOTD
+        .code16
+        .global     _start
 
         _start:
-            mov     [BOOTD],  dl
 
-            mov     bp, 0x7c00
-            mov     sp, bp
+            mov     %dl,    (BOOTD)
 
-            pusha
-            mov     ah, 0x00
-            mov     al, 0x02
-            int         0x10
-            popa
+            xor     %ax,    %ax
+            mov     %ax,    %ds
+            mov     %ax,    %ss
+            mov     $_start,%sp
+            cld
 
-            xor     al, al
-            
-            mov     ah, 09h
-            mov     cx, 2000d
-            mov     al, 32d
-            mov     bl, 0x1F
-            int         0x10
+            #   Set the video mode
+            mov     $0x03,  %ax
+            int     $0x10
 
+            #   Stop blinking attr.
+            mov     $0x1003,%ax
+            mov     $0x00,  %bx
+            int     $0x10
+
+            #   8x14 characther set
+            mov     $0x11,  %ah
+            mov     $0x01,  %al
+            int     $0x10
+
+            #   Print the start msg.
+            mov     $msg0,  %si
+            call    bputs
+
+            mov     $0x0F,  %cx
+            mov     $0x4240,%dx
+            mov     $0x86,  %ah
+            int     $0x15
+
+            mov     $msg1,  %si
+            call    bputs
+
+            mov     $0x0F,  %cx
+            mov     $0x4240,%dx
+            mov     $0x86,  %ah
+            int     $0x15
+
+            #   Read the rest of the sects.
             call    disk_read
 
             jmp     PRG_SPACE
 
+            1:  cli
+                jmp     1b
 
-        ;   Includes
-        %include "../lib/txt16.S"
-        %include "../lib/disk16.S"
+    .section    .rodata
+        msg0:   .asciz  "                   [ Operating System One | Release 2.0.0 ]\r\n                            Kernel Version [0xC8]\r\n"
+        msg1:   .asciz  "\r\nLoading the System Boot image..."
 
-    TIMES 510-($-$$) DB 0
-    DW 0xaa55
+/*
+    .space  510-(. - _start)
+    .word   0xaa55
+*/

@@ -1,59 +1,95 @@
+    
+    .section    .text.kernel
+        .code16
+        .global _kern16
+        .global DEVB
 
-    [ORG    0x7e00]
-    [CPU       386]
-    [BITS       16]
+        _kern16:
+            mov     (DEVB), %dl
 
-        %define BUILD '1.0.0'
+            mov     $msg2,  %si
+            call    puts16
+            
+            call    slow
 
-        JMP _kstart
+            jmp     os_choser
 
-        _kstart:
-            xor     ax, ax
-            mov     ds, ax
-            mov     ss, ax
-            mov     sp, 0x7e00
+        os_choser:
+            mov     $0x09,  %ah
+            mov     $80,    %cx
+            mov     $205,   %al
+            mov     $0x0F,  %bl
+            int     $0x10
 
-            cld
+            mov     $msg7,  %si
+            call    puts16
 
-            mov     ax, 0xb800
-            mov     es, ax
+            chooser:
+                mov     $0x00,  %ah
+                int     $0x16
 
-            mov     si, msg0
-            call        puts
+                cmp     $49,    %al
+                je      .os1
 
-            call        slow
+                cmp     $50,    %al
+                je      .sce
 
-            mov     si, msg1
-            call        puts
+                jmp     chooser
 
-            call        slow
+            .os1:
+                mov     $0x0e,  %ah
+                mov     $49,    %al
+                int     $0x10
 
-            mov     si, msg2
-            call        puts
+                mov     $msg8,  %si
+                call    puts16
 
-            call        slow
+                call    slow
 
-            mov     si, msg3
-            call        puts
+                mov     $msg3,  %si
+                call    puts16          
 
-            mov     ax, 0xb800
-            mov     gs, ax
-            mov     bx, 0x0000
-            mov     ax, [gs:bx]
+                call    slow
+                
+                mov     $msg4,  %si
+                call    puts16
 
-            call        slow
+                jmp     _ui16
 
-            mov     si, msg4
-            call        puts
+                cli
+                hlt
 
-            call        slow
+            .sce:
+                mov     $0x0e,  %ah
+                mov     $50,    %al
+                int     $0x10
 
-            cli
+                mov     $msg9,  %si
+                call    puts16
 
-            jmp     _ui_main
+                call    slow
 
-        %include "../lib/txt16.S"
-        %include "../lib/disk16.S"
-        %include "ui/ui16.S"
-        %include "ui/lib_ui/screen.S"
-        %include "lib/sleep.S"
+                mov     $msg5,  %si
+                call    puts16
+
+                call    slow
+
+                mov     $msg6,  %si
+                call    puts16
+
+                jmp     sce16
+
+                cli
+                hlt
+
+        DEVB:   .byte   0
+    .section    .rodata
+        msg2:   .asciz  "\r\nDisk read!\r\n"
+        msg3:   .asciz  "\r\nLoading OS/1 Kernel [0xC8]..."
+        msg4:   .asciz  "\r\nOS/1 Kernel loaded!"
+        msg5:   .asciz  "\r\nLoading SCE S-Kernel [1.0.0]..."
+        msg6:   .asciz  "\r\nSCE S-Kernel loaded!"
+
+        msg7:   .asciz  "\r\nSystem Chooser [1.0.0] :\r\n    1: OS/1    [2.0.0]\r\n    2: SCE     [1.0.0]\r\n    > "
+        msg8:   .asciz  "\r\nBooting OS/1 [2.0.0]..."
+        msg9:   .asciz  "\r\nBooting SCE [1.0.0]..."

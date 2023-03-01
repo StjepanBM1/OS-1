@@ -1,9 +1,10 @@
-    Operating System One (OS/1) 
-===================================
+                            Operating System One
+                               Version 2.0.0
 
-        Operating System One or OS/1 is a simple
-    operating system written in assembly language for
-    Intel i386 CPU platform. OS/1 comes with a simple
-    Text-User Interface that supports 16-colors (uses
-    like 4 of those). Building of OS/1 generates a
-    system binary file and a 720 KiB disk image.
+        Operating System One 2.0.0 or OS/1 2.0.0 is the second verison
+    of Operating System One. Version 2.0.0 is written in assembly for the
+    Intel i386 platform, and is compiled with GNU Assembler. Version 2.0.0
+    features a new UI design. If you wish to build OS/1 2.0.0 you need a
+    i386-elf cross-compiler. OS/1 2.0.0 is provided with a "weird" system
+    called SCE.
+

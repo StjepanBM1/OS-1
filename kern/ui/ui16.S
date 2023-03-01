@@ -1,23 +1,13 @@
 
-    %define PRG_VER '1.0.0'
+    .section    .text
+    .global     _ui16
+    .code16
 
-    _ui_main:
-        cli
-        xor     ax, ax
+        _ui16:
 
-        call    _ui_screen
+            call    ui_screen
 
-        cli
-        hlt
+            jmp     prog16
 
-    %include "ui/lib_ui/ui_screen.S"
-    %include "ui/lib_ui/ui_puts.S"
-    %include "ui/wind/main_wind.S"
-    %include "ui/wind/apps.S"
-
-    %include "ui/app/prod/app_console.S"
-    %include "ui/app/prod/app_write.S"
-    %include "ui/app/prod/prod_map.S"
-
-    %include "ui/app/creat/app_paint.S"
-    %include "ui/app/creat/creat_map.S"
+            cli
+            hlt

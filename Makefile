@@ -1,27 +1,23 @@
 
-# Directorys
-O=bin
-B=boot
-
-DF=disk.img
-OF=$(O)/*
-
-# Targets
 all: bootld kernel diskim run
 
 bootld:
-	$(MAKE) -C boot
+	make -C boot
 
-kernel:	
-	$(MAKE) -C kern
+kernel:
+	make -C kern
 
 diskim:
-	@./disk.sh
+	cat bin/boot16.bin bin/kern16.bin > bin/os1-200.bin
+
+	dd if=/dev/zero of=disk.img bs=512 count=720
+	dd if=bin/os1-200.bin of=disk.img conv=notrunc
 
 run:
-	qemu-system-i386 -fda $(DF)
+	qemu-system-i386 -fda disk.img
 
 clean:
-	rm $(OF)
-	rm $(DF)
-
+	make -C boot clean
+	make -C kern clean
+	rm bin/*
+	rm disk.img
