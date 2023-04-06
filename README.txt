@@ -12,6 +12,6 @@
 	If you encounter any errors file them on the
 	Github repository.
 
-	List of software needed to build Oklahoma :
+	List of software needed to build OS/1 :
 		*	i386-elf GNU Binutils
 		*	QEMU (or any other emulator)
