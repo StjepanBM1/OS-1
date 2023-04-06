@@ -1,10 +1,17 @@
-                            Operating System One
-                               Version 2.0.0
+	Operating System One
+======================================================
 
-        Operating System One 2.0.0 or OS/1 2.0.0 is the second verison
-    of Operating System One. Version 2.0.0 is written in assembly for the
-    Intel i386 platform, and is compiled with GNU Assembler. Version 2.0.0
-    features a new UI design. If you wish to build OS/1 2.0.0 you need a
-    i386-elf cross-compiler. OS/1 2.0.0 is provided with a "weird" system
-    called SCE.
+	Operating System One (shortened to OS/1) is
+	a simple 16-bit operating system written in
+	assembly under a cross-compiled GNU Assembler
+	for the Intel i386 CPU.
+	
+	To compile OS/1 just run : `make` in the root 
+	of the directory.
 
+	If you encounter any errors file them on the
+	Github repository.
+
+	List of software needed to build Oklahoma :
+		*	i386-elf GNU Binutils
+		*	QEMU (or any other emulator)
