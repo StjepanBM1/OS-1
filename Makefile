@@ -1,23 +1,19 @@
 
-all: boot kern bin disk run
+all: bootld kernel disk run
 
-boot:
-	make -C bootld
+bootld:
+	make -C boot
 
-kern:
-	make -C kernel
-bin:
-	cat obj/boot16.bin obj/kern16.bin > obj/os1-300.bin
+kernel:
+	make -C dune
 
 disk:
-	dd if=/dev/zero of=img/disk.img bs=512 count=1440
-	dd if=obj/os1-300.bin of=img/disk.img conv=notrunc
+	cat bin/bootld.bin bin/dune.bin > bin/os1.bin
+	dd if=/dev/zero of=disk.img bs=512 count=360
+	dd if=bin/os1.bin of=disk.img conv=notrunc
 
 run:
-	qemu-system-i386 -fda img/disk.img
+	qemu-system-i386 -fda disk.img
 
 clean:
-	make -C bootld clean
-	make -C kernel clean
-	rm obj/*
-	rm img/*
+	rm disk.img bin/*.bin
