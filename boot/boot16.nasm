@@ -24,7 +24,7 @@
 			jmp		KERNEL			;	Jump to the kernel addr.
 
 		;	Strings
-		msg_s:	db	13,10,"Operating System/1 Version 4.0.0",13,10,0
+		msg_s:	db	13,10,"Operating System/1 Version 4.1.0",13,10,0
 		msg_l:	db	"Starting OS/1...",13,10,0
 
 		times	510-($-$$)	db	0 	;	Bootsect. padding

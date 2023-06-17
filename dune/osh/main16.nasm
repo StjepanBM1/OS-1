@@ -34,6 +34,11 @@
         jc      .reboot
 
         mov     si,     buffer
+        mov     di,     cmd_shutdw
+        call    strcmp
+        je      .shutdown
+
+        mov     si,     buffer
         mov     di,     cmd_expl
         call    strcmp
         jc      .expl
@@ -48,11 +53,111 @@
         call    strcmp
         jc      .ed
 
+        mov     si,     buffer
+        mov     di,     cmd_pinb
+        call    strcmp
+        jc      .pinb
+
+        mov     si,     buffer
+        mov     di,     cmd_fmrt
+        call    strcmp
+        jc      .format
+
+        mov     si,     buffer
+        mov     di,     cmd_help
+        call    strcmp
+        jc      .help
+
+
         mov     si,     str_err
         call    puts16
         hlt
 
         jmp     _main_osh
+
+    .help:
+        mov     si, str_help
+        call    puts16
+
+        jmp     _main_osh
+    .format:
+        mov     ah, 0x09
+        mov     al, 0x20
+        mov     bh, 0x00
+        mov     bl, 0x0c
+        mov     cx, 44
+        int     0x10
+
+        mov     si,     str_f_v1
+        call    puts16
+
+        mov     ax,     0x00
+        int             0x16
+
+        cmp     al,     'y'
+        je      .do_f
+
+        cmp     al,     'Y'
+        je      .no_f
+
+        cmp     al,     'n'
+        je      .no_f
+
+        cmp     al,     'N'
+        je      .no_f
+
+        mov     si,     newl
+        call    puts16
+
+        jmp     .format
+
+        .no_f:
+            mov ah, 0x0e
+            int     0x10
+            mov si, newl
+            call    puts16
+
+            jmp _main_osh
+
+        .do_f:
+            mov ah, 0x0e
+            int     0x10
+
+            mov si, newl
+            call puts16
+
+            xor ax, ax
+            xor cl, cl
+
+            .f_loop:
+                mov ah, 0x03
+                mov al, 64
+                mov bx, 0x5000
+                mov ch, 0x00
+                inc cl
+                mov dh, 0x00
+                mov dl, 0x00
+                int     0x13
+
+                cmp cl, 64
+                je  .done_f
+
+                jmp .f_loop
+
+            .done_f:
+                mov     ah, 0x09
+                mov     al, 0x20
+                mov     bh, 0x00
+                mov     bl, 0x0a
+                mov     cx, 44
+                int     0x10
+                mov si, str_f_2
+                call puts16
+
+                jmp _main_osh
+
+    .pinb:
+        jmp     pinb
 
     .ed:
         mov     ax,     0x0003
@@ -60,9 +165,7 @@
         call    _main_ed
 
     .clear:
-        mov     ax,     0x0003
-        int             0x10
-
+        call    clear
         jmp     _main_osh
 
     .shutdown:

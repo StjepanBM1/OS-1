@@ -14,10 +14,19 @@
 		%include	"i286/stdio.inc"
 		%include	"osh/main16.nasm"
 		%include	"ed/ed.nasm"
+		%include	"pinb/pinb.nasm"
 
 	_start:
 
-		mov		ax,		0x0003
+		mov		ax,		0x03
+		int				0x10
+
+		mov		ax,		0x1003
+		mov		bx,		0x0000
+		int				0x10
+
+		mov		ah,		0x11
+		mov		al,		0x11
 		int				0x10
 
 		mov		si,		msg_2
@@ -26,4 +35,4 @@
 		jmp		_main_osh
 
 		;	Strings
-		msg_2:	db	"DUNE kernel v1.00 (for i286) | Running in DOS mode",13,10,0
+		msg_2:	db	" Operating System/1 v4.1.0 running on DUNE kernel v1.02 ",13,10,0
