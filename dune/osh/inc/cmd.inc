@@ -12,6 +12,7 @@
 
     ;   Disk
     cmd_fmrt:       db  "format", 0
+    cmd_inst:       db  "install", 0
 
     ;   Others
     cmd_test:       db  "test",0
@@ -26,12 +27,11 @@
     prompt:         db  "# ", 0
     str_err:        db  "  Command not found",13,10,0
     str_test:       db  "  test",13,10,0
-    str_ver:        db  "  Operating System/1 v4.1.0 | DUNE kernel v1.02",13,10,0
+    str_ver:        db  "  Operating System/1 v4.1.1 | DUNE kernel v1.03",13,10,0
     str_rebt:       db  "  Press any key to reboot.",13,10,0
-    str_mem:        db  "  KB free: 0x", 0
-    str_expl:       db  " This version was a bit rushed, as such it is missing a lot of features.",13,10,0
-    str_f_v1:       db  " This will erase all the data on the disk!",13,10," Are you sure (y/n)? ", 0
-    str_f_2:        db  " Format complete! Reboot recommended.", 13,10,0
+    str_mem:        db  "  KB of RAM free: 0x", 0
+
+
     str_help:       db  " List of commands :",13,10, \
                         "   - reboot ", 13,10, \
                         "   - shutdown ", 13,10, \
@@ -43,5 +43,4 @@
                         "   - mem ", 13,10, \
                         "   - ver ", 13,10, \
                         "   - help ", 13,10, \
-                        "   - explain ", 13,10, \
                         0

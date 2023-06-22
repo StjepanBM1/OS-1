@@ -4,7 +4,7 @@
             mov     ax, 0x03
             int     0x10
 
-            mov     ax, 1003
+            mov     ax, 0x1003
             mov     bx, 0x00
             int     0x10
 

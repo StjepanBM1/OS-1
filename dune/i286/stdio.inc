@@ -44,7 +44,7 @@
         mov     cx,     4
 
         .rloop:
-            rol ax,     4
+            ;rol ax,     4
             mov bx,     ax
             and bx,     0x0f
 
