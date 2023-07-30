@@ -1,16 +1,14 @@
-        Operating System/1
-==================================
+    Operating System/1 5.0.0
+================================
 
-	Operating System/1 (shortened to OS/1) is
-	a simple 16-bit operating system written in
-	assembly using NASM for the Intel i286 CPU.
-	
-	To compile OS/1 just run : `make` in the root 
-	of the directory.
+	Operating System/1 or OS/1 for short is a simple
+	16-bit operating system, based on a megalithic kernel
+	called DUNE. OS/1 5.0.0 runs in real mode and is written
+	entirely in x86 assembly.
 
-	If you encounter any errors file them on the
-	Github repository.
-
-	List of software needed to build OS/1 :
-		*	NASM
-		*	QEMU (or any other emulator)
+	*	Changes:
+	============
+		-	improved Paint
+		-	3.x UI style
+		-	Disk status program
+		-	and others
