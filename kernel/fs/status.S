@@ -5,7 +5,7 @@
          */
 
             .code16
-            .section    .text.libk
+            .section    .text.filesys
             .global     _disk_status
 
         #

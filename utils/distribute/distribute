@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -lt 3 ] 
+    then
+        printf "Usage:\n\t./distribute <first sector> <program bin> <program name>\n"
+        exit
+fi
+
+echo "First sector file: " $1;
+echo "Program binary: " $2;
+echo "Program name: " $3;
+
+cat $1 $2 > temp.bin
+dd if=/dev/zero of=$3.img bs=512 count=720
+dd if=temp.bin of=$3.img conv=notrunc
+
+rm temp.bin

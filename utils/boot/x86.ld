@@ -1,26 +1,28 @@
 OUTPUT_FORMAT(binary);
-ENTRY(_kernel);
+ENTRY(_stage1);
 
 SECTIONS
 {
-    .   =   0x7e00;
+    .   =   0x7c00;
     .text   :   SUBALIGN(0)
     {
-        *(.text.kern);
-        *(.text.filesys);
-        *(.text.libk);
+        *(.text.s1);
         *(.text)
     }
 
     .rodata :   SUBALIGN(0)
     {
-        *(.rodata.mp);
-        *(.rodata);
+        *(.rodata)
     }
 
     .data   :   SUBALIGN(0)
     {
         *(.data)
+    }
+
+    .sig    :   AT(0x7DFE)
+    {
+        SHORT(0xaa55);
     }
 
     /DISCARD/ : {
