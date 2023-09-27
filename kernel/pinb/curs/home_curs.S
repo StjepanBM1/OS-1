@@ -141,43 +141,44 @@
                 je      .extras
 
                 cmp     $0x03,  %dl
-                je      .games
+                je      .loada
                 cmp     $0x04,  %dl
-                je      .games
+                je      .loada
                 cmp     $0x05,  %dl
-                je      .games
+                je      .loada
                 cmp     $0x06,  %dl
-                je      .games
+                je      .loada
                 cmp     $0x07,  %dl
-                je      .games
+                je      .loada
                 cmp     $0x08,  %dl
-                je      .games
+                je      .loada
                 cmp     $0x09,  %dl
-                je      .games
+                je      .loada
                 cmp     $0x0A,  %dl
-                je      .games
-/*
+                je      .loada
+
                 cmp     $0x0C,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x0D,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x0E,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x0F,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x10,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x11,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x12,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x13,  %dl
-                je      .office
+                je      .loadb
                 cmp     $0x14,  %dl
-                je      .office
+                je      .loadb
+                cmp     $0x15,  %dl
+                je      .loadb
 
                 jmp     .hc_loop
-*/
 
             /*
                 Actions
@@ -198,20 +199,20 @@
                 cmp     $0x06,  %dh
                 je      _kernel
 
-/*
+
                 cmp     $0x09,  %dh
-                je      _pong
+                je      .loada
                 cmp     $0x0A,  %dh
-                je      _pong
+                je      .loada
                 cmp     $0x0B,  %dh
-                je      _pong
+                je      .loada
                 cmp     $0x0C,  %dh
-                je      _pong
+                je      .loada
                 cmp     $0x0D,  %dh
-                je      _pong
+                je      .loada
                 cmp     $0x0E,  %dh
-                je      _pong
-*/
+                je      .loada
+
                 jmp     .hc_loop
 
             .paint:
@@ -283,35 +284,31 @@
 
                 jmp     .hc_loop
 
-            .games:
+            .loada:
                 cmp     $0x09,  %dh
-                je      _pong
+                je      _load_A
                 cmp     $0x0A,  %dh
-                je      _pong
+                je      _load_A
                 cmp     $0x0B,  %dh
-                je      _pong
+                je      _load_A
                 cmp     $0x0C,  %dh
-                je      _pong
+                je      _load_A
                 cmp     $0x0D,  %dh
-                je      _pong
-                cmp     $0x0E,  %dh
-                je      _pong
+                je      _load_A
 
                 jmp     .hc_loop
-/*
-            .office:
+
+            .loadb:
                 cmp     $0x09,  %dh
-                je      _words
+                je      _load_B
                 cmp     $0x0A,  %dh
-                je      _words
+                je      _load_B
                 cmp     $0x0B,  %dh
-                je      _words
+                je      _load_B
                 cmp     $0x0C,  %dh
-                je      _words
+                je      _load_B
                 cmp     $0x0D,  %dh
-                je      _words
-                cmp     $0x0E,  %dh
-                je      _words
-*/
+                je      _load_B
+
 
                 jmp     .hc_loop

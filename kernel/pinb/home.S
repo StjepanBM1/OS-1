@@ -266,92 +266,78 @@
                     mov     $_h_dstat_5,%si
                     call    _printk
 
-                .games:
+                .loada:
                     mov     $0x02,      %ah
                     mov     $0x9,        %dh
                     mov     $0x03,      %dl
                     int     $0x10
-                    mov     $_pong_1,%si
+                    mov     $_loada_1,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xA,        %dh
                     mov     $0x03,      %dl
                     int     $0x10
-                    mov     $_pong_2,%si
+                    mov     $_loada_2,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xB,        %dh
                     mov     $0x03,      %dl
                     int     $0x10
-                    mov     $_pong_3,%si
+                    mov     $_loada_3,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xC,        %dh
                     mov     $0x03,      %dl
                     int     $0x10
-                    mov     $_pong_4,%si
+                    mov     $_loada_4,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xD,        %dh
                     mov     $0x03,      %dl
                     int     $0x10
-                    mov     $_pong_5,   %si
+                    mov     $_loada_5,   %si
                     call    _printk
 
-                    mov     $0x02,      %ah
-                    mov     $0xE,        %dh
-                    mov     $0x03,      %dl
-                    int     $0x10
-                    mov     $_pong_6,   %si
-                    call    _printk
-/*
-                .office:
+
+                .loadb:
                     mov     $0x02,      %ah
                     mov     $0x9,        %dh
                     mov     $0x0C,      %dl
                     int     $0x10
-                    mov     $_words_1,%si
+                    mov     $_loadb_1,%si
                     call    _printk
 
                     mov     $0x02,      %ah
-                    mov     $0xA,        %dh
+                    mov     $0xA,       %dh
                     mov     $0x0C,      %dl
                     int     $0x10
-                    mov     $_words_2,%si
+                    mov     $_loadb_2,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xB,        %dh
                     mov     $0x0C,      %dl
                     int     $0x10
-                    mov     $_words_3,%si
+                    mov     $_loadb_3,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xC,        %dh
                     mov     $0x0C,      %dl
                     int     $0x10
-                    mov     $_words_4,%si
+                    mov     $_loadb_4,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xD,       %dh
                     mov     $0x0C,      %dl
                     int     $0x10
-                    mov     $_words_5,  %si
+                    mov     $_loadb_5,  %si
                     call    _printk
-
-                    mov     $0x02,      %ah
-                    mov     $0xE,       %dh
-                    mov     $0x0C,      %dl
-                    int     $0x10
-                    mov     $_words_6,  %si
-                    call    _printk
-*/
 
             jmp     _home_curs
 
@@ -404,18 +390,16 @@
         _h_dstat_4:     .asciz  "\xC0\xC4\xC4\xC4\xC4\xC4\xC4\xD9"
         _h_dstat_5:     .asciz  "Dsk Stat"
 
-        #   Pong (game)
-        _pong_1:        .asciz  "\xDA\xC4\xC4\xC4\xC4\xBF"
-        _pong_2:        .asciz  "\xB3\xDD\x20\x20\x20\xB3"
-        _pong_3:        .asciz  "\xB3\x20\xFE\x20\x20\xB3"
-        _pong_4:        .asciz  "\xB3\x20\x20\x20\xDE\xB3"
-        _pong_5:        .asciz  "\xC0\xC4\xC4\xC4\xC4\xD9"
-        _pong_6:        .asciz  " Pong "
+        #   LOAD A
+        _loada_1:     .asciz  ""
+        _loada_2:     .asciz  "\xDA\xC4\xC4\xC4\xC4\xC4\x41\xBF"
+        _loada_3:     .asciz  "\xB3\x20\xC4\xCD\xCD\xC4\x20\xB3"
+        _loada_4:     .asciz  "\xC0\xC4\xC4\xC4\xC4\xC4\xC4\xD9"
+        _loada_5:     .asciz  " Disk A"
 
-        #   Words (word processor)
-        _words_1:       .asciz  "\xD6\xC4\xC4\xC4\xC4\xC4\xBF"
-        _words_2:       .asciz  "\xBA\x20\xC4\xC4\xC4\x20\xB3"
-        _words_3:       .asciz  "\xBA\xCD\xCD\xCD\xCD\xCD\xB3"
-        _words_4:       .asciz  "\xBA\xCD\xCD\xCD\xCD\xCD\xB3"
-        _words_5:       .asciz  "\xD3\xC4\xC4\xC4\xC4\xC4\xD9"
-        _words_6:       .asciz  " Words "
+        #   LOAD B
+        _loadb_1:     .asciz  ""
+        _loadb_2:     .asciz  "\xDA\xC4\xC4\xC4\xC4\xC4\x42\xBF"
+        _loadb_3:     .asciz  "\xB3\x20\xC4\xCD\xCD\xC4\x20\xB3"
+        _loadb_4:     .asciz  "\xC0\xC4\xC4\xC4\xC4\xC4\xC4\xD9"
+        _loadb_5:     .asciz  " Disk B"

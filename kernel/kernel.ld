@@ -7,6 +7,7 @@ SECTIONS
     .text   :   SUBALIGN(0)
     {
         *(.text.kern);
+        *(.text.tests);
         *(.text.filesys);
         *(.text.libk);
         *(.text)

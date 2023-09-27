@@ -178,7 +178,7 @@
         #################################
 
         _reboot:
-            int     $0x19
+            jmp     $0xFFFFF,   $0
 
         _shutdown:
             xor     %ax,    %ax
@@ -193,6 +193,9 @@
             int     $0x15
 
         _mem:
+            mov     $_mp_str_mem,   %si
+            call    _printk
+
             xor     %ax,    %ax
             clc
 
@@ -201,8 +204,7 @@
             movw    %ax,    (regi)
             call    _preg
 
-            mov     $_mp_str_mem,   %si
-            call    _printk
+            call    _returnk
 
             jmp     _input
 
@@ -251,10 +253,11 @@
             jmp     _pinb
 
             .section    .rodata.mp
+
         _mp_new_line:   .asciz  "\r\n"
         
         _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.0.0\r\n"
-        _mp_str_mem:    .asciz  "KB of low memory free (in hex.)\r\n"
+        _mp_str_mem:    .asciz  "  KB of low memory (in hex.): "
     
         _mp_prompt:     .asciz  "% "
         _mp_str_err:    .asciz  "?\r\n\n"

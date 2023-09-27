@@ -73,7 +73,7 @@
             mov     $0x01,  %al
             mov     $0x00,  %bh
             mov     $0x0f,  %bl
-            mov     $0x24,  %cx
+            mov     $0x21,  %cx
             mov     $0x01,  %dh
             mov     $0x00,  %dl
             mov     $_retmg,%bp
@@ -84,7 +84,7 @@
 
             call    _clear
 
-            ret
+            jmp     $0xFFFFF, $0
 
         #
         #   _err_B: Disk load error for _load_B function
@@ -115,7 +115,7 @@
             mov     $0x01,  %al
             mov     $0x00,  %bh
             mov     $0x0f,  %bl
-            mov     $0x24,  %cx
+            mov     $0x21,  %cx
             mov     $0x01,  %dh
             mov     $0x00,  %dl
             mov     $_retmg,%bp
@@ -126,12 +126,12 @@
 
             call    _clear
 
-            ret
+            jmp     $0xFFFFF, $0
 
             .section    .rodata
         _ler_A: .asciz  "/!\\ Failed to load the data from drive A /!\\\r\n"
         _ler_B: .asciz  "/!\\ Failed to load the data from drive B /!\\\r\n"
-        _retmg: .asciz  "\r\nPress any key to return to MP-OS/1"
+        _retmg: .asciz  "\r\nPress any key to return to OS/1"
 
             .section    .data
         tries:  .byte   0
