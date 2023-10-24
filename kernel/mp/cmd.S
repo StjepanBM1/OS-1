@@ -17,5 +17,7 @@
     _mp_cmd_clear:      .asciz  "clear"         #   Clear the screen
     _mp_cmd_help:       .asciz  "help"          #   Help command
 
+    _mp_cmd_die:        .asciz  "die"           #   Cause a kernel panic
+
     #   Pinboard
     _mp_cmd_pinb:       .asciz  "pinb"          #   Start the pinboard enviroment

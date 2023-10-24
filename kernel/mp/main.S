@@ -108,6 +108,14 @@
             call    _strcmp
             jc      _penv
 
+            #
+            #   kernel panic
+            #
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_die,  %di
+            call    _strcmp
+            jc      _die
+
             #   Command not found? Return an "?"
             mov     $_input_buffer, %si
             call    _printk
@@ -243,6 +251,9 @@
             call     _load_B
             jmp     _input
 
+        _die:
+            jmp     _panic
+
         _help:
             mov     $_mp_str_help,  %si
             call    _printk
@@ -256,13 +267,19 @@
 
         _mp_new_line:   .asciz  "\r\n"
         
-        _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.0.0\r\n"
+        _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.1.0\r\n"
         _mp_str_mem:    .asciz  "  KB of low memory (in hex.): "
     
         _mp_prompt:     .asciz  "% "
         _mp_str_err:    .asciz  "?\r\n\n"
 
-        _mp_str_help:   .asciz  "  List of commands:\r\n    - reboot\r\n    - shutdown\r\n    - mem\r\n    - dstat\r\n    - load a\r\n    - load b\r\n    - ver\r\n    - clear\r\n    - help\r\n"
+        _mp_str_help:   .ascii  "  List of commands:\r\n"
+                        .ascii  "    - reboot\r\n    - shutdown\r\n"
+                        .ascii  "    - mem\r\n    - dstat\r\n"
+                        .ascii  "    - load a\r\n    - load b\r\n"
+                        .ascii  "    - ver\r\n    - clear\r\n"
+                        .ascii  "    - die\r\n"
+                        .asciz  "    - help\r\n"
 
             .section    .data
 

@@ -79,4 +79,4 @@
 
             .section    .rodata                     #   Read-only data
         _msg1:  .asciz  "\xDB\xDB\xDB OS/1 WE"      #   Boot message (2/2).
-        _mp_str_title:  .asciz  "\xDB Monitor Program for OS/1 (MP-OS/1) Version 1.0.0\r\n To start the GUI type pinb\r\n"
+        _mp_str_title:  .asciz  "\xDB Monitor Program for OS/1 (MP-OS/1) Version 1.1.0\r\n To start the GUI type pinb\r\n"
