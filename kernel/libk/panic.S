@@ -140,7 +140,7 @@
         _nwln:  .asciz  "\r\n"
         _pm_0:  .asciz  "**** OS KERNEL HALTED ****\r\n\r\n"
         _pm_1:  .asciz  " OS kernel has experienced a fatal error and has halted program execution.\r\n"
-        _pm_2:  .asciz  " Press any key to reboot. Registers dumped:\r\n\r\n"
+        _pm_2:  .asciz  " Restart your computer. Registers dumped:\r\n\r\n"
         
         _pm_ax:  .asciz  " AX : "
         _pm_bx:  .asciz  " BX : "
@@ -160,5 +160,5 @@
         _pm_ss:  .asciz  " SS : "
 
         _pm_3:  .asciz  "\r\n\r\n OS Information:\r\n"
-        _pm_i1: .asciz  "  Kernel: v5.2.1 \"Maine\"\r\n"
-        _pm_i2: .asciz  "  OS: OS/1 Average Release 5.2.1"
+        _pm_i1: .asciz  "  Kernel: v5.3.0 \"Honolulu\"\r\n"
+        _pm_i2: .asciz  "  OS: OS/1 Average Release 5.3.0"

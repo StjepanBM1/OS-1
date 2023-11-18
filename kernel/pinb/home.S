@@ -17,6 +17,12 @@
                 mov     $50,        %cx
                 int     $0x10
 
+                mov     $_h_action,  %si
+                call    _printk
+
+                mov     $_disk_label,%si
+                call    _printk
+
                 mov     $_h_title,  %si
                 call    _printk
 
@@ -350,7 +356,8 @@
         #
         #   Strings
         #
-        _h_title:       .asciz  " \xB3\xFE\xB3 Home "
+        _h_action:      .asciz  " \xB3\xFE\xB3 "
+        _h_title:       .asciz  ":Home"
 
         #
         #   Icons

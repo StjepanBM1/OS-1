@@ -1,38 +1,101 @@
 
             .code16
-            .global     _stage1
-            .section    .text.s1
-            .set        STAGE2, 0x7e00
-            .global     STAGE2
-            .extern     _dev
+            .section    .text
+            .global     _entry
 
-        _stage1:                                    #   Bootloader entry point
+            .extern     _printk
+        
+        /*
+         *  Entry point (for the linker)
+         */
+        _entry:
+            jmp     _start                  #   Jump over the BBFS
+            nop
 
-            movb    %dl,  _dev                      #   Boot device value
+        /*
+         *  Bad Block File System
+         *      Parameters
+         *
+         *  as defined in BBFS specification
+         */
+        _disk_label:    .asciz  "OS1 BOOT"  #   Disk label, 8 bytes
+        _block_size:    .byte   5           #   size of the blocks
+        _reserved:      .word   0           #   2 bytes of reserve
+        _bootable:      .byte   1           #   Bootable: 1-yes, 0-no
+        _file_sys:      .asciz  "BBFS V01"  #   File system str. 8 chars.
 
-            xor     %ax,    %ax
-            mov     %ax,    %ds
-            mov     %ax,    %ss
-            mov     $_stage1,%sp
-            cld
+        /*
+         *  Main bootloader function
+         */
+        _start:
+            movb    %dl,    _bd             #   Save boot device num.
 
-            /* First part of the boot msg. */
-            mov     $0x03,  %ax                     #   Clear the screen
+            mov     $0x03,  %ax
             int     $0x10
 
-            mov     $0x13,  %ah                     #   Value 0x13 (print str.)
-            mov     $0x01,  %al                     #   String type
-            mov     $0x00,  %bh                     #   Video page num.
-            mov     $0x0f,  %bl                     #   Attribute (White on Black)
-            mov     $0x04,  %cx                     #   String len. = 4 chars.
-            mov     $0x00,  %dh                     #   Row 0
-            mov     $0x00,  %dl                     #   Column 0
-            mov     $_msg0, %bp                     #   String to print
-            int     $0x10                           #   Call interrupt
+            #   Set pallete register
+            mov     $0x1003,%ax
+            mov     $0x00,  %bl
+            int     $0x10
 
-            call    read_disk
+            #   Set up the font
+            mov     $0x11,  %ah
+            mov     $0x11,  %al
+            int     $0x10
+
+            #
+            #   Stack setup
+            #
+            cli
+            mov     $0x9000,%ax
+            mov     %ax,    %ss
+            mov     $0xF800,%sp
+            sti
+            
+            #   Print boot msg.
+            mov     $_sm,   %si
+            call    _print
+
+        /*
+         *  Read kernel func.
+         *
+         *  reads 128 sectors.
+         */
+        _disk_read:
+
+            xor     %ax,    %ax
+            mov     %ax,    %es
+            
+            mov     $0x02,  %ah
+            mov     $0x40,  %al
+            mov     $0x7e00,%bx
+            mov     $0x00,  %ch
+            mov     $0x02,  %cl
+            mov     $0x00,  %dh
+            movb    (_bd),  %dl
+
+            int     $0x13
+
+            jc      _disk_error
+
+            mov     $_ok,   %si
+            call    _print
 
             jmp     0x7e00
 
-            .section    .rodata                     #   Read-only data
-        _msg0:  .asciz  "\xDB\xDB\xDB "             #   Boot message (1/2).
+        _disk_error:
+            mov     $_er,   %si
+            call    _print
+
+        _end:
+            cli
+            hlt
+
+            .section    .rodata
+        _sm:    .asciz  "Booting..."
+        _ok:    .asciz  "\r\nLoaded."
+        _pc:    .asciz  "\r\nPassing control to the kernel...\r\n"
+        _er:    .asciz  "\r\nDisk read error!"
+
+            .section    .data
+        _bd:    .byte   0

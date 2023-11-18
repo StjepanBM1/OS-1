@@ -1,14 +1,9 @@
 
-        /*
-            GDT by OS-Dev wiki :
-                www.osdev.org
-         */
+        .code16
+        .global     _gdt_info
+        .section    .text.kernel
 
-            .code16
-            .global     _gdt_inf
-            .section    .text
-
-        _gdt_inf:
+        _gdt_info:
             .word   gdt_end - gdt - 1
             .long   gdt
 

@@ -191,14 +191,13 @@
 
             .shell:
                 cmp     $0x03,  %dh
-                je      _kernel
+                je      _pre_jump
                 cmp     $0x04,  %dh
-                je      _kernel
+                je      _pre_jump
                 cmp     $0x05,  %dh
-                je      _kernel
+                je      _pre_jump
                 cmp     $0x06,  %dh
-                je      _kernel
-
+                je      _pre_jump
 
                 cmp     $0x09,  %dh
                 je      .loada
@@ -312,3 +311,7 @@
 
 
                 jmp     .hc_loop
+
+        _pre_jump:
+            call    _clear
+            jmp     _input

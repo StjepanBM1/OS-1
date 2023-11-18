@@ -12,6 +12,9 @@
     _mp_cmd_load_a:     .asciz  "load a"        #   Load data from disk in drive A (from 0x7e00+) and jump to 0x7e00
     _mp_cmd_load_b:     .asciz  "load b"        #   Load data from disk in drive B (from 0x7e00+) and jump to 0x7e00
 
+    #   BBFS
+    _mp_cmd_bbfs:       .asciz  "bbfs"          #   Display disk info
+
     #   Others
     _mp_cmd_ver:        .asciz  "ver"           #   Display version string
     _mp_cmd_clear:      .asciz  "clear"         #   Clear the screen

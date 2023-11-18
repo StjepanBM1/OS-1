@@ -1,12 +1,12 @@
+
 OUTPUT_FORMAT(binary);
-ENTRY(_stage1);
+ENTRY(_entry);
 
 SECTIONS
 {
     .   =   0x7c00;
     .text   :   SUBALIGN(0)
     {
-        *(.text.s1);
         *(.text)
     }
 
@@ -20,13 +20,14 @@ SECTIONS
         *(.data)
     }
 
-    .sig    :   AT(0x7DFE)
+    .sig    :   AT(0x7dfe)
     {
         SHORT(0xaa55);
     }
 
-    /DISCARD/ : {
+    /DISCARD/   :   {
         *(.comment);
-        *(.note*);
+        *(.note*)
     }
+
 }

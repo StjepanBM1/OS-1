@@ -1,5 +1,8 @@
-    Operating System/1 Average Release 5.2.1
+    Operating System/1 Average Release 5.3.0
 ================================================
 
     Changes:
-        -   trigger kernel panic from MP
+        - partial working BBFS driver (read only)
+          for more info check kernel/fs/bbfs/bbfs.txt
+        
+        - changes to the Makefiles

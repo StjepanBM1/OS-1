@@ -1,54 +1,57 @@
 
-override FLP = os1.img
-override ISO = os1.iso
-override BINS := $(shell find ./ -type f -name '*.bin')
+override FD_IMG := img/disk.img
+override CD_IMG := img/disk.iso
 
-.PHONY:all
-all: load kern binary disk run
+override OS_BIN := bin/os.sys
 
-#
-#	Builds the LOAD (bootloader)
-load:
-	make -C boot
+override BOOT_FILE := bin/boot.sys
+override KERN_FILE := bin/kernel.sys
 
-#
-#	Builds the main kernel (called Copland)
-kern:
-	make -C kernel
+.PHONY: all boot kernel
+all: boot kernel disk run
 
-#
-#	Create a system binary by combining nload.bin & kernel.bin
-binary:
-	cat bin/boot.bin bin/kernel.bin > bin/os1.bin
-#
-#	Creates a low density 360 KiB
-disk: load kernel binary
-	dd if=/dev/zero of=img/$(FLP) bs=512 count=720
-	dd if=bin/os1.bin of=img/$(FLP) conv=notrunc
+boot:
+	make -f boot/boot.mk
+	
+kernel:
+	make -f kernel/kernel.mk
 
 #
-#	Create high density 1.44M floppy image (needed for CD-ISO)
-144img:
-	dd if=/dev/zero of=img/$(FLP) bs=512 count=2880
-	dd if=bin/os1.bin of=img/$(FLP) conv=notrunc
+#	Double Density 3.5" 720KiB disks
+#
+disk:
+	dd if=/dev/zero of=$(FD_IMG) bs=512 count=1440
+	dd if=$(BOOT_FILE) of=$(FD_IMG) bs=512 count=1 conv=notrunc
+	dd if=$(KERN_FILE) of=$(FD_IMG) bs=512 seek=1 conv=notrunc
 
 #
-#	Creates an ISO image
-cdiso: 144img
-	mkisofs -quiet -V 'os1-ar-510' -input-charset iso8859-1 -o img/$(ISO) -b $(FLP) img/
+#	CD ISO - uses high density 1.44MB disk image
 #
-#	Runs the os1.img in QEMU
-run: disk
-	qemu-system-i386 -fda img/$(FLP)
+cdrom: base
+	dd if=/dev/zero of=$(FD_IMG) bs=512 count=2880
+	dd if=$(BOOT_FILE) of=$(FD_IMG) bs=512 count=1 conv=notrunc
+	dd if=$(KERN_FILE) of=$(FD_IMG) bs=512 seek=1 conv=notrunc
 
-#
-#	Run the CD-ISO image (os1.iso) - QEMU
-runcd: cdiso
-	qemu-system-i386 -cdrom img/$(ISO)
+	mkisofs -quiet -V 'honolulu' \
+	 -input-charset iso8859-1 \
+	  -o img/disk.iso \
+	  -b disk.img \
+	  img
+
+run:
+	qemu-system-i386 -fda $(FD_IMG)
+
+run-cd: cdrom
+	qemu-system-i386 -cdrom $(CD_IMG)
+
+utils:
+	make -f utils/utils.mk
 
 .PHONY: clean
 clean:
-	make -C boot clean
-	make -C kernel clean
-	make -C pinboard clean
-	rm $(BINS) img/$(FLP) img/$(ISO)
+	make -f boot/boot.mk clean
+	make -f kernel/kernel.mk clean
+	make -f utils/utils.mk clean
+
+	rm $(FD_IMG)
+	rm $(CD_IMG)

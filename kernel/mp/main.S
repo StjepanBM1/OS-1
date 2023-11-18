@@ -116,6 +116,14 @@
             call    _strcmp
             jc      _die
 
+            #
+            #   BBFS
+            #
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_bbfs,  %di
+            call    _strcmp
+            jc      _bbfs
+
             #   Command not found? Return an "?"
             mov     $_input_buffer, %si
             call    _printk
@@ -252,7 +260,12 @@
             jmp     _input
 
         _die:
-            jmp     _panic
+            jmp     _input
+
+        _bbfs:
+            call    _bbfs_print_info
+
+            jmp     _input
 
         _help:
             mov     $_mp_str_help,  %si
@@ -267,7 +280,7 @@
 
         _mp_new_line:   .asciz  "\r\n"
         
-        _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.1.0\r\n"
+        _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.2.0\r\n"
         _mp_str_mem:    .asciz  "  KB of low memory (in hex.): "
     
         _mp_prompt:     .asciz  "% "
@@ -278,7 +291,7 @@
                         .ascii  "    - mem\r\n    - dstat\r\n"
                         .ascii  "    - load a\r\n    - load b\r\n"
                         .ascii  "    - ver\r\n    - clear\r\n"
-                        .ascii  "    - die\r\n"
+                        .ascii  "    - die\r\n    - bbfs\r\n"
                         .asciz  "    - help\r\n"
 
             .section    .data
@@ -288,4 +301,4 @@
         #
         _input_buffer:  .fill   256,1,0
 
-        .include    "mp/cmd.S"
+        .include    "./kernel/mp/cmd.S"

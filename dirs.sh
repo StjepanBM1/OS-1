@@ -1,0 +1,3 @@
+
+mkdir bin
+mkdir img
