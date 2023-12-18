@@ -16,6 +16,7 @@
             .code16
             .section    .text.mp
             .global     _input
+            .extern     _entry
             #.global     _monitor_program
 
         #
@@ -27,6 +28,7 @@
         #                               an error.
         #
         _input:
+
             mov     $_mp_prompt,    %si
             call    _printk
 
@@ -124,12 +126,41 @@
             call    _strcmp
             jc      _bbfs
 
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_ram1,  %di
+            call    _strcmp
+            jc      _ram_read_1
+
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_ram2,  %di
+            call    _strcmp
+            jc      _ram_read_2
+
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_ram3,  %di
+            call    _strcmp
+            jc      _ram_read_3
+
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_ram4,  %di
+            call    _strcmp
+            jc      _ram_read_4
+
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_ram5,  %di
+            call    _strcmp
+            jc      _ram_read_5
+
+            mov     $_input_buffer, %si
+            mov     $_mp_cmd_rexe,  %di
+            call    _strcmp
+            jc      _ram_exec
+
             #   Command not found? Return an "?"
             mov     $_input_buffer, %si
             call    _printk
             mov     $_mp_str_err,   %si
             call    _printk
-            hlt
 
             jmp     _input
 
@@ -249,6 +280,7 @@
             xor     %dx,    %dx
             xor     %ax,    %ax
             call    _disk_status
+
             jmp     _input
 
         _loada:
@@ -260,7 +292,7 @@
             jmp     _input
 
         _die:
-            jmp     _input
+            jmp     _panic
 
         _bbfs:
             call    _bbfs_print_info
@@ -273,6 +305,39 @@
 
             jmp     _input
 
+        _ram_read_1:
+            mov     $0x01,  %ax
+            mov     $512,   %cx
+            call    _bbfs_read_ram_block
+            jmp     _input
+
+        _ram_read_2:
+            mov     $0x02,  %ax
+            mov     $512,   %cx
+            call    _bbfs_read_ram_block
+            jmp     _input
+
+        _ram_read_3:
+            mov     $0x03,  %ax
+            mov     $512,   %cx
+            call    _bbfs_read_ram_block
+            jmp     _input
+
+        _ram_read_4:
+            mov     $0x04,  %ax
+            mov     $512,   %cx
+            call    _bbfs_read_ram_block
+            jmp     _input
+
+        _ram_read_5:
+            mov     $0x05,  %ax
+            mov     $512,   %cx
+            call    _bbfs_read_ram_block
+            jmp     _input
+
+        _ram_exec:
+            jmp     _bbfs_ram_exec
+
         _penv:
             jmp     _pinb
 
@@ -280,7 +345,7 @@
 
         _mp_new_line:   .asciz  "\r\n"
         
-        _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.2.0\r\n"
+        _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.3.0\r\n"
         _mp_str_mem:    .asciz  "  KB of low memory (in hex.): "
     
         _mp_prompt:     .asciz  "% "
@@ -292,13 +357,18 @@
                         .ascii  "    - load a\r\n    - load b\r\n"
                         .ascii  "    - ver\r\n    - clear\r\n"
                         .ascii  "    - die\r\n    - bbfs\r\n"
+                        .ascii  "    - pinb\r\n"
+                        .ascii  "    - ram read 1/2/3/4/5\r\n"
+                        .ascii  "    - ram exec\r\n"
                         .asciz  "    - help\r\n"
 
             .section    .data
-
-        #
-        #   _input_buffer   -   stores user input (256-byte limit)
-        #
-        _input_buffer:  .fill   256,1,0
-
         .include    "./kernel/mp/cmd.S"
+
+        #
+        #   _input_buffer   -   stores user input (3254-byte limit)
+        #   0xAC00 - 0x7c00 -> 0x3000
+        #   First block should be @ 0x3000, alter the size of
+        #   input buffer as needed.
+        _input_buffer:  .fill   256, 1, 0
+

@@ -1,12 +1,11 @@
 
-    Bad Block File System
-=============================
+    Bad Block File System 2nd Edition
+=========================================
 
-        Bad Block File System or BBFS for short
-    is a very bad file system used in OS/1.
-        
-        It uses 4KiB blocks for data storage
-    with 12-bytes for the name storage of blocks.
-    as of OS/1 5.3.0 there is only read support
-    of BBFS parameters. Expect the write support
-    in the next few releases.
+    The second edition of BBFS is a
+    somewhat of a downgrade. Featuring
+    512 byte blocks with 12 byte file
+    names. But with the 2nd edition you
+    can save the data (RAM storage only).
+
+    Replaces LDFS.

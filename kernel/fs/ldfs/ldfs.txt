@@ -1,0 +1,10 @@
+    Legacy Disk File System
+===============================
+
+    Legacy Disk File System or LDFS was
+    a short lived file system used in OS/1
+    before BBFS. It doesn't recognize files
+    instead it just jumps to 0x0000:0x7e00
+    of a disk in the drive A/B.
+
+    Only here for backward compatibility

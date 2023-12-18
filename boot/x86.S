@@ -18,11 +18,9 @@
          *
          *  as defined in BBFS specification
          */
-        _disk_label:    .asciz  "OS1 BOOT"  #   Disk label, 8 bytes
-        _block_size:    .byte   5           #   size of the blocks
-        _reserved:      .word   0           #   2 bytes of reserve
+        _disk_label:    .asciz  "OS/1 v5.40"#   Disk label, 10 bytes
         _bootable:      .byte   1           #   Bootable: 1-yes, 0-no
-        _file_sys:      .asciz  "BBFS V01"  #   File system str. 8 chars.
+        _file_sys:      .asciz  "BBFS V02"  #   File system str. 8 chars.
 
         /*
          *  Main bootloader function
@@ -59,7 +57,7 @@
         /*
          *  Read kernel func.
          *
-         *  reads 128 sectors.
+         *  reads 64 sectors.
          */
         _disk_read:
 

@@ -42,20 +42,9 @@ int main()
         cout << "Disk label: ";
         getline(cin, disk_label);
 
-        if (disk_label.size() > 8) {
-            fputs("[!!] Disk label cannot be more than 8 chars. in length [!!]\n", stderr);
+        if (disk_label.size() > 10) {
+            fputs("[!!] Disk label cannot be more than 10 chars. in length [!!]\n", stderr);
             goto _disk_label;
-        }
-        else
-            goto _block_size;
-
-    _block_size:
-        cout << "Block size (1-6): ";
-        cin >> block_size;
-
-        if (block_size < 1 || block_size > 6) {
-            fputs("[!!] Size of blocks must be between 1-6 [!!]\n", stderr);
-            goto _block_size;
         }
         else
             goto _bootable;
@@ -91,21 +80,19 @@ int main()
         {
             memset(buffer, 0x00, sizeof(buffer));
 
-            for (int x = 3; x <= 11; x++)
+            for (int x = 3; x <= 13; x++)
                 buffer[x] = disk_label[x-3];
             
-            buffer[12] = block_size;
-
             if (bootable == 1) {
-                buffer[15] = bootable;
+                buffer[14] = bootable;
                 buffer[510] = 0x55;
                 buffer[511] = 0xaa; 
             } else {
-                buffer[15] = bootable;
+                buffer[14] = bootable;
             }
 
-            for (int x = 16; x<= 25-1; x++)
-                buffer[x] = file_sys_id[x-16];
+            for (int x = 15; x<= 23-1; x++)
+                buffer[x] = file_sys_id[x-15];
 
             for (int i = 0; i < 512; i++)
                 disk_file << buffer[i];

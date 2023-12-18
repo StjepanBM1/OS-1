@@ -54,7 +54,7 @@
             mov     $msg1,  %si
             call    _printk
 
-            call    _bbfs_bread_sector
+            call    _bbfs_read_sector
 
             call    bbfs_get_params
 
@@ -69,4 +69,4 @@
             .section    .rodata.kernel
         msg0:   .asciz  "\r\nControl passed to the kernel.\r\n"
         msg1:   .asciz  "Switched to unreal mode.\r\n"
-        _mp_str_title:  .asciz  "\r\n\xDB Monitor Program for OS/1 (MP-OS/1) Version 1.2.0\r\n To start the GUI type pinb\r\n"
+        _mp_str_title:  .asciz  "\r\n\xDB Monitor Program for OS/1 (MP-OS/1) Version 1.3.0\r\n"

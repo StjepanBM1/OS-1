@@ -23,9 +23,6 @@
                 mov     $_disk_label,%si
                 call    _printk
 
-                mov     $_h_title,  %si
-                call    _printk
-
             .h_border:
 
                 mov     $0x02,      %ah
@@ -356,8 +353,7 @@
         #
         #   Strings
         #
-        _h_action:      .asciz  " \xB3\xFE\xB3 "
-        _h_title:       .asciz  ":Home"
+        _h_action:      .asciz  " \xB3\xFE\xB3 Home : "
 
         #
         #   Icons

@@ -25,8 +25,12 @@ SECTIONS
     {
         *(.data.filesys);
         *(.data);
-        *(.data.filesys.blocks);
         *(.data.pinb);
+    }
+
+    .blocks :   SUBALIGN(0)
+    {
+        *(.blocks);
     }
 
     /DISCARD/   :   {

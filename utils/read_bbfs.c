@@ -30,17 +30,15 @@ void read_boot_sector(char *file_path)
     read(boot_sector, buffer, 510);
     close(boot_sector);
 
-    for (int x = 3; x <= 11; x++)
+    for (int x = 3; x <= 13; x++)
         disk.disk_label[x-3] = buffer[x];
 
-    disk.block_size = buffer[12];
-    disk.bootable = buffer[15];
+    disk.bootable = buffer[14];
 
-    for (int x = 16; x <= 25-1; x++)
-        disk.file_sys_id[x-16] = buffer[x];
+    for (int x = 15; x <= 23-1; x++)
+        disk.file_sys_id[x-15] = buffer[x];
 
     printf("DISK LABEL: %s\n", disk.disk_label);
-    printf("BLOCK SIZE: %d\n", disk.block_size);
     printf("BOOTABLE:   %d\n", disk.bootable);
     printf("FILE SYS:   %s\n", disk.file_sys_id);
 
