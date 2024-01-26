@@ -32,7 +32,7 @@ cdrom: base
 	dd if=$(BOOT_FILE) of=$(FD_IMG) bs=512 count=1 conv=notrunc
 	dd if=$(KERN_FILE) of=$(FD_IMG) bs=512 seek=1 conv=notrunc
 
-	mkisofs -quiet -V 'os1-v540' \
+	mkisofs -quiet -V 'os1-v550' \
 	 -input-charset iso8859-1 \
 	  -o img/disk.iso \
 	  -b disk.img \

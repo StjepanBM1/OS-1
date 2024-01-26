@@ -84,7 +84,7 @@
                     int     $0x10
 
                     .rloop:
-                        cmp $22,    %dh
+                        cmp $24,    %dh
                         je  .endd
 
                         mov $0x02,  %ah

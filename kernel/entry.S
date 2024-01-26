@@ -10,7 +10,17 @@
             .extern     _bbfs_read_sector
             .extern     bbfs_get_params
 
+        /*
+         *  kernel entry point (jumps to _start)
+         */
         _entry:
+            jmp     _start
+            nop
+        
+        /*
+         * main kernel function (jumped to)
+         */
+        _start:
             xor     %ax,    %ax
             int     $0x13
 
@@ -18,7 +28,7 @@
             xor     %ax,    %ax
             mov     %ax,    %ds
             mov     %ax,    %ss
-            mov     $_entry,%sp
+            mov     $_start,%sp
             cld
 
             mov     $msg0,  %si

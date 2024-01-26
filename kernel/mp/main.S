@@ -345,22 +345,22 @@
 
         _mp_new_line:   .asciz  "\r\n"
         
-        _mp_str_ver:    .asciz  "  Monitor Program for OS/1 (MP-OS/1) Version 1.3.0\r\n"
-        _mp_str_mem:    .asciz  "  KB of low memory (in hex.): "
+        _mp_str_ver:    .asciz  "\tMonitor Program for OS/1 (MP-OS/1) Version 1.3.0\r\n"
+        _mp_str_mem:    .asciz  "\tKB of low memory (in hex.): "
     
         _mp_prompt:     .asciz  "% "
         _mp_str_err:    .asciz  "?\r\n\n"
 
-        _mp_str_help:   .ascii  "  List of commands:\r\n"
-                        .ascii  "    - reboot\r\n    - shutdown\r\n"
-                        .ascii  "    - mem\r\n    - dstat\r\n"
-                        .ascii  "    - load a\r\n    - load b\r\n"
-                        .ascii  "    - ver\r\n    - clear\r\n"
-                        .ascii  "    - die\r\n    - bbfs\r\n"
-                        .ascii  "    - pinb\r\n"
-                        .ascii  "    - ram read 1/2/3/4/5\r\n"
-                        .ascii  "    - ram exec\r\n"
-                        .asciz  "    - help\r\n"
+        _mp_str_help:   .ascii  "\tList of commands:\r\n"
+                        .ascii  "\t\t- reboot\r\n\t\t- shutdown\r\n"
+                        .ascii  "\t\t- mem\r\n\t\t- dstat\r\n"
+                        .ascii  "\t\t- load a\r\n\t\t- load b\r\n"
+                        .ascii  "\t\t- ver\r\n\t\t- clear\r\n"
+                        .ascii  "\t\t- die\r\n\t\t- bbfs\r\n"
+                        .ascii  "\t\t- pinb\r\n"
+                        .ascii  "\t\t- ram read 1/2/3/4/5\r\n"
+                        .ascii  "\t\t- ram exec\r\n"
+                        .asciz  "\t\t- help\r\n"
 
             .section    .data
         .include    "./kernel/mp/cmd.S"

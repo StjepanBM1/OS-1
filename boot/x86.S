@@ -1,4 +1,3 @@
-
             .code16
             .section    .text
             .global     _entry
@@ -18,8 +17,9 @@
          *
          *  as defined in BBFS specification
          */
-        _disk_label:    .asciz  "OS/1 v5.40"#   Disk label, 10 bytes
+        _disk_label:    .asciz  "OS/1 5.5.0"#   Disk label, 10 bytes
         _bootable:      .byte   1           #   Bootable: 1-yes, 0-no
+        _is_wrprt:      .byte   0           #   Bootable: 1-yes 0-no
         _file_sys:      .asciz  "BBFS V02"  #   File system str. 8 chars.
 
         /*

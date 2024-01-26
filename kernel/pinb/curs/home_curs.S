@@ -66,6 +66,9 @@
                 jmp     .hc_loop
 
             .click:
+                cmp     $0x00,  %dh
+                je      .tbar
+
                 cmp     $0x02,  %dh
                 je      .bar
 
@@ -183,9 +186,29 @@
             /*
                 Actions
             */
+            .tbar:
+                cmp     $0x0B,  %dl
+                je      _about
+                cmp     $0x0C,  %dl
+                je      _about
+                cmp     $0x0D,  %dl
+                je      _about
+                cmp     $0x0E,  %dl
+                je      _about
+                cmp     $0x0F,  %dl
+                je      _about
+                cmp     $0x10,  %dl
+                je      _about
+                cmp     $0x11,  %dl
+                je      _about
+                cmp     $0x12,  %dl
+                je      _about
+                cmp     $0x13,  %dl
+                je      _about
+
             .bar:
                 cmp     $0x03,  %dl
-                je      _pinb
+                je      _h_clear
 
                 jmp     .hc_loop
 
@@ -311,6 +334,30 @@
 
 
                 jmp     .hc_loop
+
+        _h_clear:
+            mov     $0x02,      %ah
+            mov     $01,        %dh
+            mov     $01,        %dl
+            int     $0x10
+
+            .h_cloop:
+                mov     $0x02,      %ah
+                inc     %dh
+                mov     $01,        %dl
+                int     $0x10
+
+                mov     $0x09,      %ah
+                mov     $0x20,      %al
+                mov     $0x00,      %bh
+                mov     $0x1F,      %bl
+                mov     $50,        %cx
+                int     $0x10
+
+                cmp     $18,        %dh
+                je      _desk_curs
+
+                jmp     .h_cloop
 
         _pre_jump:
             call    _clear

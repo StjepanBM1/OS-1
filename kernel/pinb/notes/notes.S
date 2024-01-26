@@ -1,4 +1,3 @@
-
             .code16
             .section    .text.pinb.app
             .global     _notes

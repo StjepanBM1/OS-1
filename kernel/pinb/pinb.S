@@ -52,4 +52,4 @@
 
             .section    .rodata.pinb
         _pm_0:      .asciz  " Pinboard Enviroment for OS/1 v5.x"
-        _bar:       .asciz  "  \xB3 Home \xB3"
+        _bar:       .asciz  "  \xB3 Home \xB3 \xB3 About \xB3"

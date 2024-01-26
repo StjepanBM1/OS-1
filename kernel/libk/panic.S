@@ -160,5 +160,5 @@
         _pm_ss:  .asciz  " SS : "
 
         _pm_3:  .asciz  "\r\n\r\n OS Information:\r\n"
-        _pm_i1: .asciz  "  Kernel: v5.4.0 \"Yosemite\"\r\n"
-        _pm_i2: .asciz  "  OS: OS/1 Average Release 5.4.0"
+        _pm_i1: .asciz  "  Kernel: v5.5.0 \"Los Angeles\"\r\n"
+        _pm_i2: .asciz  "  OS: OS/1 Average Release 5.5.0"

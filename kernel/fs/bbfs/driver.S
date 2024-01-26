@@ -90,7 +90,7 @@
 
             _fs_id:
                 xor     %ax,    %ax
-                mov     $0xAA0F,%si
+                mov     $0xAA10,%si
                 mov     $_file_sys,%di
                 mov     $8, %cx
 
@@ -418,24 +418,24 @@
             hlt
 
             .section    .rodata.filesys
-        _b1_w_done:     .asciz  "  Finished writing data to RAM block #1 @ 0xAC00\r\n"
-        _b2_w_done:     .asciz  "  Finished writing data to RAM block #2 @ 0xAE00\r\n"
-        _b3_w_done:     .asciz  "  Finished writing data to RAM block #3 @ 0xB000\r\n"
-        _b4_w_done:     .asciz  "  Finished writing data to RAM block #4 @ 0xB200\r\n"
-        _b5_w_done:     .asciz  "  Finished writing data to RAM block #5 @ 0xB400\r\n"
+        _b1_w_done:     .asciz  "\tFinished writing data to RAM block #1 @ 0xAC00\r\n"
+        _b2_w_done:     .asciz  "\tFinished writing data to RAM block #2 @ 0xAE00\r\n"
+        _b3_w_done:     .asciz  "\tFinished writing data to RAM block #3 @ 0xB000\r\n"
+        _b4_w_done:     .asciz  "\tFinished writing data to RAM block #4 @ 0xB200\r\n"
+        _b5_w_done:     .asciz  "\tFinished writing data to RAM block #5 @ 0xB400\r\n"
 
-        _b1_r_done:     .asciz  "  Finished reading RAM block #1 (copied @ 0xAA00)\r\n"
-        _b2_r_done:     .asciz  "  Finished reading RAM block #2 (copied @ 0xAA00)\r\n"
-        _b3_r_done:     .asciz  "  Finished reading RAM block #3 (copied @ 0xAA00)\r\n"
-        _b4_r_done:     .asciz  "  Finished reading RAM block #4 (copied @ 0xAA00)\r\n"
-        _b5_r_done:     .asciz  "  Finished reading RAM block #5 (copied @ 0xAA00)\r\n"
+        _b1_r_done:     .asciz  "\tFinished reading RAM block #1 (copied @ 0xAA00)\r\n"
+        _b2_r_done:     .asciz  "\tFinished reading RAM block #2 (copied @ 0xAA00)\r\n"
+        _b3_r_done:     .asciz  "\tFinished reading RAM block #3 (copied @ 0xAA00)\r\n"
+        _b4_r_done:     .asciz  "\tFinished reading RAM block #4 (copied @ 0xAA00)\r\n"
+        _b5_r_done:     .asciz  "\tFinished reading RAM block #5 (copied @ 0xAA00)\r\n"
 
-        _ram_run:       .asciz  "  Jumping to 0xAA00\r\n"
+        _ram_run:       .asciz  "\tJumping to 0xAA00\r\n"
 
-        _ram_err1:      .asciz  "  Wrong RAM block specified.\r\n"
-        _ram_err2:      .asciz  "  Data size limit exceeded. Maximum of 512 bytes.\r\n"
+        _ram_err1:      .asciz  "\tWrong RAM block specified.\r\n"
+        _ram_err2:      .asciz  "\tData size limit exceeded. Maximum of 512 bytes.\r\n"
 
-        _ram_error:     .asciz  "  Failed to write data to the RAM block.\r\n"
+        _ram_error:     .asciz  "\tFailed to write data to the RAM block.\r\n"
 
 
         _disk_error:    .ascii  "BBFS: Disk error.\r\n"
@@ -443,15 +443,17 @@
 
         _disk_ok:       .asciz  "BBFS parameter: \r\n"
 
-        _msg_label:     .asciz  "   DISK LABEL:  "
-        _msg_boot:      .asciz  "\r\n   BOOTABLE:    "
-        _msg_fs_id:     .asciz  "\r\n   FILE SYS:    "
+        _msg_label:     .asciz  "\t\tDISK LABEL:  "
+        _msg_boot:      .asciz  "\r\n\t\tBOOTABLE:    "
+        _msg_wrprt:     .asciz  "\r\n\t\tWRITE PR.:   "
+        _msg_fs_id:     .asciz  "\r\n\t\tFILE SYS:    "
 
         _msg_cp_w_done:   .asciz  "Disk copying done.\r\n"
 
             .section    .data.filesys
             .global     _block_size
             .global     _disk_label
+            .global     _file_sys
         _ram_out:       .fill   512, 1, 0
         _disk_label:    .asciz  "          "
         _bootable:      .asciz  " "

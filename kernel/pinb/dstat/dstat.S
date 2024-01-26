@@ -28,7 +28,7 @@
                 int     $0x10
                 
                 .left:
-                    cmp     $21,    %dh
+                    cmp     $24,    %dh
                     je      .i1
 
                     mov     $0x02,  %ah
@@ -52,7 +52,7 @@
                     int     $0x10
 
                 .right:
-                    cmp     $21,    %dh
+                    cmp     $24,    %dh
                     je      .bot
 
                     mov     $0x02,  %ah
@@ -102,7 +102,18 @@
                 xor     %ax,    %ax
                 call    _disk_status
 
+                call    bbfs_get_params
+
+                mov     $0x02,  %ah
+                mov     $17,    %dh
+                mov     $0x01,  %dl
+                int     $0x10
+
+            .done:
                 jmp     _disk_curs
 
             .section    .rodata.pinb
         _d_title:       .asciz  " \xB3\xFE\xB3 Disk status "
+
+        _d_label:       .asciz  "Disk label: "
+        _d_fs_id:       .asciz  "File system id: "

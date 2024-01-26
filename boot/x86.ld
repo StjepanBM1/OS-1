@@ -1,12 +1,13 @@
-
 OUTPUT_FORMAT(binary);
 ENTRY(_entry);
 
 SECTIONS
 {
-    .   =   0x7c00;
+    . = 0x7c00;
+
     .text   :   SUBALIGN(0)
     {
+        *(.text.main);
         *(.text)
     }
 

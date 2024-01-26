@@ -13,13 +13,10 @@
 
         (to see the logo of OS/1 check OS-1-LOGO.png)
 
-    -= CHANGES (as of v5.4.0) =-
-        -   BBFS:
-            >   read block support
-            >   write block support
-            >   blocks are now executable
-            >   12 character file names
-            >   block limit of 512 bytes (-12B for file name)
+    -= CHANGES (as of v5.5.0) =-
+        -   Pinboard:
+            > added an About tab to the top bar
+            > small changes to Home tab
 
     -= System Requirements =-
 

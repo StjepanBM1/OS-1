@@ -4,6 +4,29 @@
             .global     _home
 
         _home:
+            mov     $0x02,      %ah
+            mov     $02,        %dh
+            mov     $01,        %dl
+            int     $0x10
+
+            .h_set:
+                mov     $0x02,      %ah
+                inc     %dh
+                mov     $01,        %dl
+                int     $0x10
+
+                mov     $0x09,      %ah
+                mov     $0x20,      %al
+                mov     $0x00,      %bh
+                mov     $0x1F,      %bl
+                mov     $50,        %cx
+                int     $0x10
+
+                cmp     $18,        %dh
+                je      .h_title
+
+                jmp     .h_set
+                
             .h_title:
                 mov     $0x02,      %ah
                 mov     $02,        %dh
@@ -302,42 +325,45 @@
                     mov     $0xD,        %dh
                     mov     $0x03,      %dl
                     int     $0x10
-                    mov     $_loada_5,   %si
+                    mov     $_disk_label,%si
                     call    _printk
+
+                    #mov     $_loada_5,   %si
+                    #call    _printk
 
 
                 .loadb:
                     mov     $0x02,      %ah
                     mov     $0x9,        %dh
-                    mov     $0x0C,      %dl
+                    mov     $0x0E,      %dl
                     int     $0x10
                     mov     $_loadb_1,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xA,       %dh
-                    mov     $0x0C,      %dl
+                    mov     $0x0E,      %dl
                     int     $0x10
                     mov     $_loadb_2,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xB,        %dh
-                    mov     $0x0C,      %dl
+                    mov     $0x0E,      %dl
                     int     $0x10
                     mov     $_loadb_3,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xC,        %dh
-                    mov     $0x0C,      %dl
+                    mov     $0x0E,      %dl
                     int     $0x10
                     mov     $_loadb_4,%si
                     call    _printk
 
                     mov     $0x02,      %ah
                     mov     $0xD,       %dh
-                    mov     $0x0C,      %dl
+                    mov     $0x0E,      %dl
                     int     $0x10
                     mov     $_loadb_5,  %si
                     call    _printk

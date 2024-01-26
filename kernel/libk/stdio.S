@@ -30,19 +30,30 @@
         #
         _printk:
             lodsb
+
             or      %al,    %al
-            jz      _printk_done
+            jz      .pk_done
+
+            cmp     $0x09,  %al
+            je      .handle_tab
 
             mov     $0x0e,  %ah
-            mov     $0x00,  %bh
-            mov     $0x0f,  %bl
             int     $0x10
 
             jmp     _printk
 
-            _printk_done:
-                ret
+            .handle_tab:
+                mov $0x0e,  %ah
+                mov $' ',   %al
+                int $0x10
+                int $0x10
+                int $0x10
+                int $0x10
 
+                jmp _printk
+
+            .pk_done:
+                ret
         #
         #   _preg:  prints value of a register
         #

@@ -1,17 +1,17 @@
 
             .code16
             .section    .text.pinb
-            .global     _desk_curs
+            .global     _about_curs
 
-        _desk_curs:
+        _about_curs:
             mov     $0x01,  %ah
             mov     $0x10,  %cx
             int     $0x10
 
-            mov     $13,    %cl
-            mov     $40,    %bl
+            mov     $0x03,  %bl
+            mov     $0x02,  %cl
 
-            .dc_loop:
+            .ac_loop:
                 mov     $0x02,  %ah
                 mov     %cl,    %dh
                 mov     %bl,    %dl
@@ -35,43 +35,49 @@
                 cmp     $0x20,  %al
                 je      .click
 
-                jmp     .dc_loop
+                jmp     .ac_loop
 
             .up:
                 cmp     $0x00,  %cl
-                je      .dc_loop
+                je      .ac_loop
 
                 sub     $0x01,  %cl
-                jmp     .dc_loop
+                jmp     .ac_loop
 
             .down:
                 cmp     $0x1B,  %cl
-                je      .dc_loop
+                je      .ac_loop
 
                 add     $0x01,  %cl
-                jmp     .dc_loop
+                jmp     .ac_loop
 
             .left:
                 cmp     $0x00,  %bl
-                je      .dc_loop
+                je      .ac_loop
 
                 sub     $0x01,  %bl
-                jmp     .dc_loop
+                jmp     .ac_loop
 
             .right:
                 cmp     $79,    %bl
-                je      .dc_loop
+                je      .ac_loop
 
                 add     $0x01,  %bl
-                jmp     .dc_loop
+                jmp     .ac_loop
 
             .click:
+                cmp     $0x02,  %dh
+                je      .bar
+
                 cmp     $0x00,  %dh
-                je      .topb
+                je      .tbar
 
-                jmp     .dc_loop
+                jmp     .ac_loop
 
-            .topb:
+            /*
+                Actions
+            */
+            .tbar:
                 cmp     $0x02,  %dl
                 je      _home
                 cmp     $0x03,  %dl
@@ -89,23 +95,34 @@
                 cmp     $0x09,  %dl
                 je      _home
 
-                cmp     $0x0B,  %dl
-                je      _about
-                cmp     $0x0C,  %dl
-                je      _about
-                cmp     $0x0D,  %dl
-                je      _about
-                cmp     $0x0E,  %dl
-                je      _about
-                cmp     $0x0F,  %dl
-                je      _about
-                cmp     $0x10,  %dl
-                je      _about
-                cmp     $0x11,  %dl
-                je      _about
-                cmp     $0x12,  %dl
-                je      _about
-                cmp     $0x13,  %dl
-                je      _about
+                jmp     .ac_loop
 
-                jmp     .dc_loop
+            .bar:
+                cmp     $0x03,  %dl
+                je      _a_clear
+
+                jmp     .ac_loop
+
+        _a_clear:
+            mov     $0x02,      %ah
+            mov     $01,        %dh
+            mov     $01,        %dl
+            int     $0x10
+
+            .a_cloop:
+                mov     $0x02,      %ah
+                inc     %dh
+                mov     $01,        %dl
+                int     $0x10
+
+                mov     $0x09,      %ah
+                mov     $0x20,      %al
+                mov     $0x00,      %bh
+                mov     $0x1F,      %bl
+                mov     $50,        %cx
+                int     $0x10
+
+                cmp     $18,        %dh
+                je      _desk_curs
+
+                jmp     .a_cloop
