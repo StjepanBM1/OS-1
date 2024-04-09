@@ -16,42 +16,18 @@ boot:
 kernel:
 	make -f kernel/kernel.mk
 
-#
-#	Double Density 3.5" 720KiB disks
-#
 disk:
 	dd if=/dev/zero of=$(FD_IMG) bs=512 count=1440
 	dd if=$(BOOT_FILE) of=$(FD_IMG) bs=512 count=1 conv=notrunc
 	dd if=$(KERN_FILE) of=$(FD_IMG) bs=512 seek=1 conv=notrunc
 
-#
-#	CD ISO - uses high density 1.44MB disk image
-#
-cdrom: base
-	dd if=/dev/zero of=$(FD_IMG) bs=512 count=2880
-	dd if=$(BOOT_FILE) of=$(FD_IMG) bs=512 count=1 conv=notrunc
-	dd if=$(KERN_FILE) of=$(FD_IMG) bs=512 seek=1 conv=notrunc
-
-	mkisofs -quiet -V 'os1-v550' \
-	 -input-charset iso8859-1 \
-	  -o img/disk.iso \
-	  -b disk.img \
-	  img
 
 run:
-	qemu-system-i386 -fda $(FD_IMG)
-
-run-cd: cdrom
-	qemu-system-i386 -cdrom $(CD_IMG)
-
-utils:
-	make -f utils/utils.mk
+	qemu-system-i386 -drive format=raw,file="$(FD_IMG)",index=0,if=floppy
 
 .PHONY: clean
 clean:
 	make -f boot/boot.mk clean
 	make -f kernel/kernel.mk clean
-	make -f utils/utils.mk clean
 
 	rm $(FD_IMG)
-	rm $(CD_IMG)

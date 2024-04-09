@@ -1,82 +1,113 @@
 
-            .code16
-            .global     _entry
-            .section    .text.kernel
-        
-            .extern     _printk
-        
-            .extern     _gdt_info
+        .code16
+        .global     _kernel_start
+        .section    .text.main
 
-            .extern     _bbfs_read_sector
-            .extern     bbfs_get_params
+    _file:  .ascii  "KERNEL-6-0-0.SYS"     #   12 char file name and a 3 char file exst.
 
-        /*
-         *  kernel entry point (jumps to _start)
-         */
-        _entry:
-            jmp     _start
-            nop
-        
-        /*
-         * main kernel function (jumped to)
-         */
-        _start:
-            xor     %ax,    %ax
-            int     $0x13
+    _kernel_start:
+        #
+        #   Stack setup
+        #
+        xor     %ax,    %ax
+        mov     %ax,    %ds
+        mov     %ax,    %ss
+        mov     $0x7e00,%sp
+        cld
 
-            #   Stack
-            xor     %ax,    %ax
-            mov     %ax,    %ds
-            mov     %ax,    %ss
-            mov     $_start,%sp
-            cld
+        #
+        #   Load GDT
+        #
+        cli
+        push    %ds
 
-            mov     $msg0,  %si
-            call    _printk
+        lgdt    _gdt_info
 
-            #
-            #   GDT & Unreal mode
-            #
-            xor     %ax,    %ax
-            mov     %ax,    %ds
-            mov     %ax,    %ss
-            mov     $0x7e00,%sp
-            cld
+        mov     %cr0,   %eax
+        or      $1,     %al
+        mov     %eax,   %cr0
 
-            cli                     #   clear interrupts
-            push    %ds             #   save %ds
+        ljmp    $0x08,  $_prot_mode
 
-            lgdt    _gdt_info       #   load gdt
+        #
+        #   Swith to huge unreal mode
+        #
+    _prot_mode:
+        mov     $0x10,  %bx
+        mov     %bx,    %ds
 
-            mov     %cr0,   %eax    #   switch to protected mode
-            or      $1,     %al     #   setting the protected
-            mov     %eax,   %cr0    #   mode bit
-            
-            mov     $0x08,  %bx     #   select  descriptor 1
-            mov     %bx,    %ds     #   0x08 =  1000B
+        and     $0xFE,  %al
+        mov     %eax,   %cr0
 
-            and     $0xFe,  %al     #   back to real mode
-            mov     %eax,   %cr0    #   toggling the bit again
-            
-            pop     %ds             #   restore %ds
-            sti                     #   enable the ints.
+        ljmp    $0x00,  $_unreal_mode
 
-            mov     $msg1,  %si
-            call    _printk
+    _unreal_mode:
 
-            call    _bbfs_read_sector
+        pop     %ds
+        sti
 
-            call    bbfs_get_params
+        #
+        #   Load custom interrupts to IVT
+        #
+        call    _set_ivt
 
-            mov     $_mp_str_title, %si
-            call    _printk
+        #
+        #   Start the shell (located in KERNEL 6.0.0.SYS)
+        #
 
-            jmp     _input
+/*
+    
+    THIS CODE ACTUALLY WORKS!!!!
 
-            cli
-            hlt
+    IT READS THE 16*****th SECTOR
 
-            .section    .rodata.kernel
-        msg0:   .asciz  "\r\nControl passed to the kernel.\r\n"
-        msg1:   .asciz  "Switched to unreal mode.\r\n"
-        _mp_str_title:  .asciz  "\r\n\xDB Monitor Program for OS/1 (MP-OS/1) Version 1.3.0\r\n"
+    FOR SOME REASON QEMU USES 16
+    SECTORS PER TRACK INSTEAD OF
+    DEFAULT 18.
+
+    IT TOOK ME AN HOUR OF TESTING
+    TO FIND THAT OUT
+
+    1.4.2024:
+        NVM it now randomly 
+        switched to using 18
+        sectors per track???
+
+        NVM#2 the reason it
+        switched to using 18
+        sectors per track is
+        because we now run
+        QEMU with this cmd:
+            qemu-system-i386 -drive format=raw,file="$(FD_IMG)",index=0,if=floppy
+
+        xor     %ax,    %ax
+        mov     %ax,    %es
+
+        mov     $0x02,  %ah
+        mov     $0x40,  %al             #   Load 32 sectors (16KiB) of data
+        mov     $0x500, %bx             #   to address 0x0500
+        mov     $0x02,  %ch             #   track 2
+        mov     $0x01,  %cl             #   1st sector of track 2
+        mov     $0x00,  %dh
+        movb    (_cur_drive),%dl
+        int     $0x13
+
+        jc      _disk_error
+
+        jmp     0x500
+*/
+
+        jmp     _mp
+
+        cli
+        hlt
+
+    _disk_error:
+        mov     $_err,  %si
+        call    _printk
+
+        cli
+        hlt
+
+        .section    .rodata
+    _err:       .asciz  "DISK ERROR!\r\n"

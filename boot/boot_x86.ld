@@ -7,7 +7,6 @@ SECTIONS
 
     .text   :   SUBALIGN(0)
     {
-        *(.text.main);
         *(.text)
     }
 

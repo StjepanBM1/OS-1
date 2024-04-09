@@ -1,2 +1,6 @@
 .vscode/***
+*.s_o
 *.o
+*.img
+*.sys
+*.bin

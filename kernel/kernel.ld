@@ -1,40 +1,26 @@
-
 OUTPUT_FORMAT(binary);
-ENTRY(_entry);
+ENTRY(_kernel_start);
 
 SECTIONS
 {
-    .   =   0x7e00;
+    .   =   0x0500;
     .text   :   SUBALIGN(0)
     {
-        *(.text.kernel);
-        *(.text.filesys);
-        *(.text.libk);
+        *(.text.main);
         *(.text)
     }
 
     .rodata :   SUBALIGN(0)
     {
-        *(.rodata.kernel);
-        *(.rodata.filesys);
-        *(.rodata.mp);
         *(.rodata)
     }
 
     .data   :   SUBALIGN(0)
     {
-        *(.data.filesys);
         *(.data);
-        *(.data.pinb);
-    }
-
-    .blocks :   SUBALIGN(0)
-    {
-        *(.blocks);
     }
 
     /DISCARD/   :   {
-        *(.comment);
         *(.note*)
     }
 

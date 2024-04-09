@@ -1,3 +1,3 @@
 
-mkdir bin
-mkdir img
+mkdir -p bin
+mkdir -p img

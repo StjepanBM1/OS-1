@@ -4,19 +4,43 @@
     -= About =-
             Operating System/1 or OS/1 for short is a
         simple 16-bit OS written in x86 assembly that runs
-        in Unreal mode.
+        in huge unreal mode.
 
-            It features a graphical environment called
-        Pinboard, a shell called MP-OS/1 (the real name is 
-        quite long), and as of version 5.4.0 a functioning
-        file system called Bad Block File System (BBFS).
+            Version 6.0.0 removed some stuff, but most
+        importantly it added a functioning file system called
+        Low Performance File System (LPFS). It can handle files
+        up to 18KiB in size (36 512B sectors).
+
+            Pinboard has been removed from the base
+        system and will be available with other software on a
+        special disk called "OS/1 Utilities disk".
 
         (to see the logo of OS/1 check OS-1-LOGO.png)
 
-    -= CHANGES (as of v5.5.0) =-
+    -= CHANGES (as of v6.0.0) =-
+        -   BBFS:
+            >   removed
+
+        -   LDFS:
+            >   removed
+
+        -   LPFS:
+            >   new FS for OS/1
+            >   read, write or remove files up to 18KiB
+                in size
+            >   format command
+
+        -   IVT:
+            >   custom interrupts to make developing
+                software for OS/1 easier
+
+        -   MP:
+            >   more disk commands
+            >   added cmd. line arguments
+            >   a text editor called "td" added
+
         -   Pinboard:
-            > added an About tab to the top bar
-            > small changes to Home tab
+            > removed from the base OS
 
     -= System Requirements =-
 
@@ -42,25 +66,13 @@
             - an emulator (QEMU recommended)
             - make
 
-        When you wish to copile run this command:
+        When you wish to compile run this command:
             make -i clean && make
 
     -= Running on real hardware =-
-            While it is recommended that you run OS/1
-        in an emulator, there have been attempts to run it
-        on real hardware. So far OS/1 has proven most
-        successful running on a COMPAQ DeskPro 386 with VGA
-        display and 1MB of RAM. While I have tested that it
-        can work with even less RAM, it is quite slow when
-        ran with less than 512KB of RAM.
-
-            Also while VGA display isn't necessary I do
-        recommended it, since white foreground color will
-        start blinking on a non-VGA display.
-
-            If you do successfully run OS/1 on a real
-        computer, please do send me a message so I can add
-        that machine to the list of PCs that have ran OS/1!
+        To be honest, I have no idea if this will run
+        on real hardware. If you have the time, do test 
+        OS/1 6.0.0 on real hardware and tell me how it went.
 
     -= Additional =-
             If any bugs or issues have been found do

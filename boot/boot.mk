@@ -12,7 +12,7 @@ override OBJ := $(ASM:.S=.o)
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	$(LD) -Tboot/x86.ld $(OBJ) -o $@
+	$(LD) -Tboot/boot_x86.ld $(OBJ) -o $@
 
 %.o: %.S
 	$(AS) $< -o $@

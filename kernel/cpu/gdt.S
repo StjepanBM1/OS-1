@@ -1,17 +1,20 @@
 
         .code16
         .global     _gdt_info
-        .section    .text.kernel
+        .section    .text
 
-        _gdt_info:
-            .word   gdt_end - gdt - 1
-            .long   gdt
+    _gdt_info:
+        .word   _gdt_end - _gdt - 1
+        .long   _gdt
 
-        gdt:
-            .long   0
-            .long   0
+    _gdt:
+        .long   0
+        .long   0
+    
+    _flat_code:
+        .byte   0xff, 0xff, 0, 0, 0, 0b10011010, 0b10001111, 0
+    
+    _flat_data:
+        .byte   0xff, 0xff, 0, 0, 0, 0b10010010, 0b11001111, 0
 
-        flatd:
-            .byte   0xFF, 0xFF, 0, 0, 0, 0b10010010, 0b11001111, 0
-        
-        gdt_end:
+    _gdt_end:
